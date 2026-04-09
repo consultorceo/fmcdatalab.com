@@ -3,278 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EBIT-Q by FMCDatalab — Descubre cuánto dinero está dejando sobre la mesa tu empresa</title>
-<meta name="description" content="EBIT-Q diagnostica las 8 áreas críticas de tu empresa y te muestra exactamente cuánto puedes ahorrar o ganar de más, con lo que ya tienes.">
+<title>EBIT-Q by FMCDatalab — Recupera el margen que ya es tuyo</title>
+<meta name="description" content="EBIT-Q detecta las fugas invisibles de rentabilidad en tu empresa. Datos reales, impacto en pesos, plan de acción en 90 días.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #f7f5f0;
-  --bg2:      #edeae2;
-  --bg3:      #e2dfd6;
-  --ink:      #111110;
-  --ink2:     #2a2a28;
-  --ink3:     #5a5a56;
-  --ink4:     #9a9a94;
+  /* Blues palette */
+  --blue-950: #0a1628;
+  --blue-900: #0f2040;
+  --blue-800: #1a3560;
+  --blue-700: #1e4a8a;
+  --blue-600: #2563b8;
+  --blue-500: #3b82d8;
+  --blue-400: #60a5f5;
+  --blue-300: #93c5fd;
+  --blue-100: #dbeafe;
+  --blue-50:  #eff6ff;
+
+  --gold:     #c9960a;
+  --gold2:    #e6b020;
+  --gold-l:   #fef3c7;
+
+  --bg:       #f4f7fc;
+  --bg2:      #eaf0fb;
+  --bg3:      #dde8f8;
   --white:    #ffffff;
-  --accent:   #0b3d6b;
-  --accent2:  #1560a8;
-  --accent-l: #e8f0fa;
-  --gold:     #c8901a;
-  --gold-l:   #fdf4e0;
-  --green:    #1a6e3a;
-  --green-l:  #e6f4ec;
-  --red:      #b5311f;
-  --border:   rgba(17,17,16,0.09);
-  --border2:  rgba(17,17,16,0.16);
+
+  --ink:      #0f2040;
+  --ink2:     #1e3a6e;
+  --ink3:     #3d5a8a;
+  --ink4:     #7a96c2;
+
+  --green:    #0f7a3e;
+  --green-l:  #e8f5ee;
+
+  --border:   rgba(37,99,184,0.1);
+  --border2:  rgba(37,99,184,0.2);
+  --border3:  rgba(37,99,184,0.35);
+
+  --shadow:   0 1px 4px rgba(15,32,64,0.06), 0 4px 16px rgba(15,32,64,0.04);
+  --shadow2:  0 2px 8px rgba(15,32,64,0.08), 0 8px 32px rgba(15,32,64,0.06);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6}
-h1,h2,h3,h4{font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em;line-height:1.05}
-.mono{font-family:'DM Mono',monospace}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5, nav, button, .btn-g, .btn-o, .tag, .mono, .nav-cta, .pillar-name, .how-n, .hstat-n, .metric-n, .band-i {
+  font-family: 'League Spartan', sans-serif;
+  letter-spacing: -0.01em;
+}
 
 /* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:rgba(247,245,240,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.08em;color:var(--ink)}
-.logo-by{font-size:11px;font-weight:500;color:var(--ink4);letter-spacing:0.05em}
-.logo-dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.nav-r{display:flex;align-items:center;gap:28px}
-.nav-r a{font-size:13px;font-weight:500;color:var(--ink3);text-decoration:none;transition:color .2s}
-.nav-r a:hover{color:var(--ink)}
-.nav-cta{background:var(--ink)!important;color:#fff!important;padding:8px 18px;border-radius:6px;font-size:13px!important;font-weight:600!important;transition:background .2s!important}
-.nav-cta:hover{background:var(--accent)!important}
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 64px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 5%;
+  background: rgba(244,247,252,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border2);
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-mark {
+  width: 30px; height: 30px; background: var(--blue-700);
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 15px; height: 15px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.logo-text { font-family: 'League Spartan', sans-serif; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+.logo-by { font-family: 'League Spartan', sans-serif; font-size: 11px; font-weight: 500; color: var(--ink4); padding-left: 10px; border-left: 1px solid var(--border3); margin-left: 2px; }
+.nav-r { display: flex; align-items: center; gap: 28px; }
+.nav-r a { font-family: 'League Spartan', sans-serif; font-size: 14px; font-weight: 500; color: var(--ink3); text-decoration: none; transition: color .2s; }
+.nav-r a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--blue-700) !important; color: #fff !important;
+  padding: 9px 20px; border-radius: 7px; font-size: 14px !important;
+  font-weight: 700 !important; transition: background .2s !important; white-space: nowrap;
+}
+.nav-cta:hover { background: var(--blue-800) !important; }
 
 /* ─── HERO ─── */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 5% 60px;gap:60px;max-width:1300px;margin:0 auto}
-.hero-l{}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-l);border:1px solid rgba(11,61,107,.15);padding:5px 12px;border-radius:100px;margin-bottom:28px}
-.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-h1.big{font-size:clamp(52px,6.5vw,84px);color:var(--ink);margin-bottom:24px}
-h1.big em{color:var(--accent);font-style:normal}
-.hero-sub{font-size:17px;color:var(--ink3);line-height:1.75;font-weight:300;max-width:480px;margin-bottom:36px}
-.hero-sub strong{color:var(--ink);font-weight:600}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
-.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:13px 26px;border-radius:8px;border:none;cursor:pointer;transition:background .2s,transform .15s}
-.btn-p:hover{background:var(--accent);transform:translateY(-1px)}
-.btn-s{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px;padding:13px 26px;border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:all .2s}
-.btn-s:hover{border-color:var(--ink);background:rgba(17,17,16,.04)}
-.hero-proof{display:flex;gap:32px;padding-top:36px;border-top:1px solid var(--border);flex-wrap:wrap}
-.proof-item{}
-.proof-num{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--ink);line-height:1}
-.proof-num span{color:var(--accent)}
-.proof-lbl{font-size:12px;color:var(--ink4);margin-top:2px}
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 100px 5% 80px;
+  max-width: 860px; margin: 0 auto;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--blue-700); background: var(--blue-50);
+  border: 1px solid var(--border3); padding: 5px 14px;
+  border-radius: 100px; margin-bottom: 32px; width: fit-content;
+}
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-600); animation: pulse 2s ease infinite; flex-shrink: 0; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
 
-/* HERO RIGHT — visual dashboard mock */
-.hero-r{position:relative}
-.dash-mock{background:var(--white);border:1px solid var(--border2);border-radius:20px;padding:24px;box-shadow:0 20px 60px rgba(11,61,107,.08)}
-.dash-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.dash-title{font-size:13px;font-weight:600;color:var(--ink)}
-.dash-badge{background:var(--green-l);color:var(--green);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
-.dash-modules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.dm{padding:12px 14px;border-radius:10px;border:1px solid var(--border)}
-.dm-name{font-size:11px;color:var(--ink4);margin-bottom:6px}
-.dm-bar-wrap{height:5px;background:var(--bg2);border-radius:3px;margin-bottom:6px}
-.dm-bar{height:5px;border-radius:3px}
-.dm-pct{font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
-.roi-strip{background:var(--accent);border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
-.roi-strip-l{font-size:12px;color:rgba(255,255,255,.6)}
-.roi-strip-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#fff;letter-spacing:.04em}
-.roi-strip-sub{font-size:11px;color:rgba(255,255,255,.5)}
-.floating-tag{position:absolute;top:-16px;right:-16px;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:8px 14px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 12px rgba(200,144,26,.3)}
+h1.hero-h {
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 900; color: var(--ink);
+  margin-bottom: 28px; line-height: 1.02;
+  max-width: 780px;
+}
+h1.hero-h em { font-style: normal; color: var(--blue-600); }
+
+.hero-sub {
+  font-size: 19px; color: var(--ink3);
+  line-height: 1.8; max-width: 600px; margin-bottom: 20px;
+  font-family: 'Libre Baskerville', serif;
+}
+.hero-sub-2 {
+  font-size: 18px; color: var(--ink2);
+  line-height: 1.8; max-width: 600px; margin-bottom: 36px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+}
+.hero-sub strong, .hero-sub-2 strong { color: var(--ink); font-weight: 700; font-style: normal; }
+
+.hero-btn { margin-bottom: 0; }
+.btn-g {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--blue-700); color: #fff; text-decoration: none;
+  font-weight: 700; font-size: 15px; padding: 15px 32px;
+  border-radius: 9px; border: none; cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.btn-g:hover { background: var(--blue-800); transform: translateY(-2px); }
 
 /* ─── BAND ─── */
-.band{background:var(--ink);padding:18px 5%;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
-.band-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:13px;font-weight:500}
-.band-sep{width:1px;height:20px;background:rgba(255,255,255,.15)}
+.band {
+  background: var(--blue-900);
+  padding: 20px 5%; display: flex; align-items: center;
+  justify-content: center; gap: 40px; flex-wrap: wrap;
+}
+.band-i {
+  display: flex; align-items: center; gap: 9px;
+  color: rgba(255,255,255,.7); font-size: 13px; font-weight: 600;
+  letter-spacing: .02em;
+}
+.band-i svg { width: 16px; height: 16px; fill: none; stroke: var(--blue-300); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.band-sep { width: 1px; height: 20px; background: rgba(255,255,255,.12); }
 
-/* ─── SECTION COMMONS ─── */
-.section{padding:100px 5%}
-.section-inner{max-width:1100px;margin:0 auto}
-.eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;padding:5px 12px;border:1px solid rgba(11,61,107,.2);border-radius:4px}
-.eyebrow.dark{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.2)}
-.eyebrow.gold{color:var(--gold);border-color:rgba(200,144,26,.3)}
-h2.sec-title{font-size:clamp(36px,4.5vw,58px);margin-bottom:16px;color:var(--ink)}
-h2.sec-title.white{color:#fff}
-.sec-sub{font-size:17px;color:var(--ink3);font-weight:300;line-height:1.75;max-width:540px}
-.sec-sub.white{color:rgba(255,255,255,.6)}
+/* ─── SECTIONS ─── */
+.sec { padding: 100px 5%; }
+.sec-inner { max-width: 1100px; margin: 0 auto; }
+.sec-inner-sm { max-width: 820px; margin: 0 auto; }
 
-/* ─── WHAT IS IT ─── */
-.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
-.what-l h2{font-size:clamp(36px,4vw,54px);color:var(--ink);margin-bottom:20px}
-.what-l p{font-size:16px;color:var(--ink3);line-height:1.8;margin-bottom:16px}
-.what-l p strong{color:var(--ink);font-weight:600}
-.pillars{display:flex;flex-direction:column;gap:12px}
-.pillar{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:var(--white);border:1px solid var(--border);border-radius:12px}
-.pillar-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.pillar-icon.blue{background:var(--accent-l)}
-.pillar-icon.gold{background:var(--gold-l)}
-.pillar-icon.green{background:var(--green-l)}
-.pillar h4{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;margin-bottom:3px}
-.pillar p{font-size:13px;color:var(--ink4);line-height:1.6}
+.tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 4px; margin-bottom: 18px;
+}
+.tag.blue { color: var(--blue-700); border: 1px solid var(--border3); background: var(--blue-50); }
+.tag.dark { color: var(--gold2); border: 1px solid rgba(230,176,32,.35); }
+.tag.light { color: var(--blue-300); border: 1px solid rgba(147,197,253,.3); }
 
-/* ─── MODULES ─── */
-.modules-bg{background:var(--bg2)}
-.mod-intro{max-width:600px;margin-bottom:60px}
-.modules-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.mod{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .2s,transform .2s;cursor:default}
-.mod:hover{border-color:var(--accent2);transform:translateY(-3px)}
-.mod-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink4);margin-bottom:10px}
-.mod-ico{font-size:22px;margin-bottom:10px;display:block}
-.mod h4{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)}
-.mod p{font-size:12px;color:var(--ink4);line-height:1.6}
-.mod.accent-mod{background:var(--accent);border-color:var(--accent);grid-column:span 2}
-.mod.accent-mod .mod-num{color:rgba(255,255,255,.45)}
-.mod.accent-mod h4{color:#fff;font-size:16px}
-.mod.accent-mod p{color:rgba(255,255,255,.6)}
-.mod-premium-badge{display:inline-block;background:rgba(255,255,255,.15);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:8px}
-.mod.gold-mod{background:var(--gold-l);border-color:rgba(200,144,26,.25)}
-.mod.gold-mod h4{color:var(--ink)}
-.mod-note{margin-top:16px;font-size:13px;color:var(--ink4);font-style:italic}
+h2.st {
+  font-size: clamp(34px, 4.5vw, 54px); font-weight: 800;
+  color: var(--ink); margin-bottom: 18px; line-height: 1.05;
+}
+h2.st.white { color: #fff; }
+h2.st.gold { color: var(--gold2); }
 
-/* ─── ROI SECTION ─── */
-.roi-bg{background:var(--ink2)}
-.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:60px}
-.roi-explain p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px}
-.roi-explain p strong{color:#fff}
-.roi-items{display:flex;flex-direction:column;gap:10px;margin-top:28px}
-.roi-item{padding:14px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;display:flex;justify-content:space-between;align-items:center}
-.roi-item-l{font-size:13px;color:rgba(255,255,255,.6)}
-.roi-item-r{font-family:'DM Mono',monospace;font-size:13px;color:#fff;font-weight:500}
-.roi-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:32px}
-.roi-card-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
-.roi-eg-title{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:4px}
-.roi-eg-co{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px}
-.roi-big{font-family:'Bebas Neue',sans-serif;font-size:64px;color:#fff;line-height:1;margin-bottom:4px}
-.roi-big-sub{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:28px}
-.roi-rows{display:flex;flex-direction:column;gap:0}
-.roi-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}
-.roi-row:last-child{border-bottom:none;padding-bottom:0}
-.roi-row-k{font-size:13px;color:rgba(255,255,255,.5)}
-.roi-row-v{font-size:14px;font-weight:600;color:#fff}
-.roi-row-v.g{color:#4ade80}
-.roi-disclaimer{font-size:11px;color:rgba(255,255,255,.25);margin-top:16px;line-height:1.6}
+.ssub {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 17px; color: var(--ink3); line-height: 1.8; max-width: 540px;
+}
+.ssub.white { color: rgba(255,255,255,.65); }
 
-/* ─── PRICING ─── */
-.pricing-intro{max-width:600px;margin-bottom:60px}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.price-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;transition:transform .2s,border-color .2s}
-.price-card:hover{transform:translateY(-4px);border-color:var(--border2)}
-.price-card.featured{border:2px solid var(--accent);background:var(--ink)}
-.price-card.featured .price-name{color:rgba(255,255,255,.5)}
-.price-card.featured .price-desc{color:rgba(255,255,255,.5)}
-.price-card.featured .price-item{color:rgba(255,255,255,.7);border-bottom-color:rgba(255,255,255,.08)}
-.price-card.featured .price-item::before{color:rgba(255,255,255,.5)}
-.price-card.featured h3{color:#fff}
-.featured-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:100px;white-space:nowrap}
-.price-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px}
-h3.price-size{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px}
-.price-desc{font-size:13px;color:var(--ink4);margin-bottom:24px;line-height:1.6}
-.price-range{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.price-range-label{font-size:11px;color:var(--ink4);margin-bottom:6px}
-.price-from{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--ink);line-height:1}
-.price-card.featured .price-from{color:#fff}
-.price-from-unit{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:var(--ink4);margin-left:4px}
-.price-card.featured .price-from-unit{color:rgba(255,255,255,.4)}
-.price-items{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:0}
-.price-item{font-size:13px;color:var(--ink3);padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
-.price-item:last-child{border-bottom:none}
-.price-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:13px}
-.price-note{font-size:12px;color:var(--ink4);font-style:italic;margin-bottom:24px;line-height:1.6}
-.price-cta{display:block;text-align:center;padding:12px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s;background:var(--bg2);color:var(--ink);border:1px solid var(--border)}
-.price-cta:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
-.price-card.featured .price-cta{background:#fff;color:var(--ink);border:none}
-.price-card.featured .price-cta:hover{background:var(--accent);color:#fff}
-.pricing-module-note{margin-top:32px;padding:20px 24px;background:var(--accent-l);border:1px solid rgba(11,61,107,.15);border-radius:12px;font-size:14px;color:var(--accent);line-height:1.7}
-.pricing-module-note strong{font-weight:700}
+/* ─── METRICS 3 ─── */
+.metrics-bg { background: var(--blue-900); }
+.metrics-3 {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: rgba(255,255,255,.07);
+  border-radius: 16px; overflow: hidden; margin-top: 56px;
+  border: 1px solid rgba(255,255,255,.07);
+}
+.metric-block { background: var(--blue-900); padding: 44px 36px; position: relative; }
+.metric-block::after {
+  content: ''; position: absolute; right: 0; top: 20%; bottom: 20%;
+  width: 1px; background: rgba(255,255,255,.07);
+}
+.metric-block:last-child::after { display: none; }
+.metric-ico {
+  width: 48px; height: 48px; border-radius: 11px;
+  background: rgba(37,99,184,.25); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 22px;
+}
+.metric-ico svg { width: 24px; height: 24px; stroke: var(--blue-300); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.metric-n { font-size: 58px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -0.03em; margin-bottom: 8px; }
+.metric-n span { font-size: 30px; color: var(--gold2); }
+.metric-label { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.metric-desc { font-family: 'Libre Baskerville', serif; font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.7; }
+
+/* ─── SOLUTION ─── */
+.sol-bg { background: var(--bg2); }
+.sol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 60px; }
+.sol-l p {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 16px; color: var(--ink3); line-height: 1.85; margin-bottom: 18px;
+}
+.sol-l p strong { color: var(--ink); font-weight: 700; }
+.sol-l p em { font-style: italic; color: var(--blue-700); }
+.adapt-pill {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--blue-50); border: 1px solid var(--border3);
+  border-radius: 10px; padding: 16px 18px; margin-top: 24px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 14px; color: var(--ink2); line-height: 1.65;
+}
+.adapt-pill svg { width: 20px; height: 20px; fill: none; stroke: var(--blue-600); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 2px; }
+
+.sol-radar { background: var(--blue-900); border-radius: 18px; padding: 32px; }
+.radar-lbl {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 24px;
+}
+.ri { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.ri-name { font-family: 'League Spartan', sans-serif; font-size: 12px; color: rgba(255,255,255,.6); width: 140px; flex-shrink: 0; }
+.ri-bg { flex: 1; height: 5px; background: rgba(255,255,255,.08); border-radius: 3px; }
+.ri-fill { height: 5px; border-radius: 3px; }
+.ri-fill.c { background: #f87171; }
+.ri-fill.w { background: #fbbf24; }
+.ri-fill.ok { background: #34d399; }
+.ri-pct { font-family: 'DM Mono', monospace; font-size: 11px; width: 32px; text-align: right; flex-shrink: 0; }
+.ri-pct.c { color: #f87171; }
+.ri-pct.w { color: #fbbf24; }
+.ri-pct.ok { color: #34d399; }
+.radar-total {
+  margin-top: 20px; padding: 18px 20px;
+  background: rgba(37,99,184,.2); border: 1px solid rgba(37,99,184,.4);
+  border-radius: 10px; display: flex; justify-content: space-between; align-items: center;
+}
+.rt-l { font-family: 'League Spartan', sans-serif; font-size: 11px; color: rgba(255,255,255,.4); margin-bottom: 4px; }
+.rt-v { font-family: 'League Spartan', sans-serif; font-size: 22px; font-weight: 800; color: var(--gold2); letter-spacing: -0.02em; }
+.rt-r-l { font-family: 'League Spartan', sans-serif; font-size: 11px; color: rgba(255,255,255,.4); margin-bottom: 4px; text-align: right; }
+.rt-r-v { font-family: 'League Spartan', sans-serif; font-size: 18px; font-weight: 800; color: #fff; text-align: right; }
+
+/* ─── PILLARS ─── */
+.pillars-bg { background: var(--blue-50); }
+.pillars-header { text-align: center; max-width: 620px; margin: 0 auto 64px; }
+.pillars-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.pillar {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: 18px; padding: 36px 30px;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.pillar:hover { transform: translateY(-4px); border-color: var(--blue-500); box-shadow: 0 8px 32px rgba(37,99,184,.12); }
+.pillar-ico {
+  width: 52px; height: 52px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
+}
+.pillar-ico.eff { background: var(--blue-50); }
+.pillar-ico.int { background: #eef2ff; }
+.pillar-ico.str { background: var(--gold-l); }
+.pillar-ico svg { width: 26px; height: 26px; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.pillar-ico.eff svg { stroke: var(--blue-600); }
+.pillar-ico.int svg { stroke: #6366f1; }
+.pillar-ico.str svg { stroke: var(--gold); }
+.pillar-name { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 10px; display: block; }
+.pillar h3 { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 18px; }
+.pillar-mods { display: flex; flex-direction: column; gap: 0; }
+.pmod {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+  font-family: 'League Spartan', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink3);
+}
+.pmod:last-child { border-bottom: none; padding-bottom: 0; }
+.pmod-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-400); flex-shrink: 0; }
+.pmod.premium .pmod-dot { background: var(--gold); }
+.pmod.premium { color: var(--gold); font-weight: 700; }
+
+/* ─── ADAPT ─── */
+.adapt-bg { background: var(--blue-800); }
+.adapt-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.adapt-l h2 { font-size: clamp(32px,4vw,50px); font-weight: 800; color: #fff; margin-bottom: 20px; }
+.adapt-l p { font-family: 'Libre Baskerville', serif; font-size: 16px; color: rgba(255,255,255,.7); line-height: 1.8; margin-bottom: 14px; }
+.adapt-l p strong { color: #fff; font-style: normal; }
+.adapt-industries { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ind {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  border-radius: 10px; padding: 13px 15px;
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'League Spartan', sans-serif; font-size: 13px; font-weight: 600; color: #fff;
+}
+.ind-ico { font-size: 18px; line-height: 1; }
+
+/* ─── AUTHORITY ─── */
+.auth-bg { background: var(--bg); }
+.auth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 60px; }
+.auth-l p { font-family: 'Libre Baskerville', serif; font-size: 16px; color: var(--ink3); line-height: 1.85; margin-bottom: 18px; }
+.auth-l p strong { color: var(--ink); font-weight: 700; }
+.auth-quotes { display: flex; flex-direction: column; gap: 16px; }
+.auth-quote {
+  background: var(--white); border: 1px solid var(--border2);
+  border-left: 4px solid var(--blue-500);
+  border-radius: 0 12px 12px 0; padding: 20px 22px;
+}
+.auth-quote p { font-family: 'Libre Baskerville', serif; font-size: 15px; color: var(--ink2); line-height: 1.75; font-style: italic; }
 
 /* ─── HOW ─── */
-.how-bg{background:var(--bg2)}
-.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
-.how-grid::before{content:'';position:absolute;top:40px;left:calc(12.5% + 20px);right:calc(12.5% + 20px);height:1px;background:var(--border2)}
-.how-step{text-align:center;padding:0 20px}
-.how-num{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:30px;margin:0 auto 24px;position:relative;z-index:1;border:1px solid var(--border2);background:var(--bg2);color:var(--ink)}
-.how-step.done .how-num{background:var(--ink);color:#fff;border-color:var(--ink)}
-.how-step h4{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px}
-.how-step p{font-size:13px;color:var(--ink4);line-height:1.65}
-.how-time{display:inline-block;margin-top:10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);background:var(--accent-l);padding:3px 10px;border-radius:100px}
+.how-bg { background: var(--bg2); }
+.how-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 60px; position: relative; }
+.how-steps::before { content: ''; position: absolute; top: 38px; left: calc(12.5% + 20px); right: calc(12.5% + 20px); height: 1px; background: var(--border3); }
+.how-step { text-align: center; padding: 0 16px; }
+.how-n {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: var(--blue-700); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px; position: relative; z-index: 1;
+  font-size: 26px; font-weight: 900; letter-spacing: -0.02em;
+  box-shadow: 0 4px 16px rgba(37,99,184,.3);
+}
+.how-step h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.how-step p { font-family: 'Libre Baskerville', serif; font-size: 13px; color: var(--ink4); line-height: 1.65; }
 
-/* ─── FMCDATALAB ─── */
-.fmc-bg{background:var(--ink)}
-.fmc-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
-.fmc-l h2{color:#fff;margin-bottom:20px}
-.fmc-l p{font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:20px}
-.fmc-l p strong{color:#fff}
-.fmc-services{display:flex;flex-direction:column;gap:12px}
-.fmc-svc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
-.fmc-svc-ico{font-size:20px;flex-shrink:0;margin-top:2px}
-.fmc-svc h5{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
-.fmc-svc p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6}
-.fmc-apps{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px}
-.fmc-apps-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
-.app-item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:12px}
-.app-item:last-child{border-bottom:none;padding-bottom:0}
-.app-dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);flex-shrink:0}
-.app-name{font-size:14px;color:#fff;font-weight:500}
-.app-desc{font-size:12px;color:rgba(255,255,255,.4);margin-left:auto}
+/* ─── ADAPT 2 ─── */
+.adapt2-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px; }
+.adapt2-l h2 { font-size: clamp(30px,3.5vw,46px); font-weight: 800; color: var(--ink); margin-bottom: 20px; }
+.adapt2-l p { font-family: 'Libre Baskerville', serif; font-size: 15px; color: var(--ink3); line-height: 1.85; margin-bottom: 18px; }
+.adapt2-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.atag { background: var(--white); border: 1px solid var(--border2); border-radius: 100px; padding: 7px 16px; font-family: 'League Spartan', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink3); }
+.adapt2-r { background: var(--white); border: 1px solid var(--border2); border-radius: 18px; padding: 30px; box-shadow: var(--shadow); }
+.adapt2-r-title { font-family: 'League Spartan', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink4); margin-bottom: 20px; }
+.adapt2-item { display: flex; align-items: flex-start; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--border); }
+.adapt2-item:last-child { border-bottom: none; padding-bottom: 0; }
+.adapt2-check { width: 22px; height: 22px; border-radius: 50%; background: var(--blue-50); border: 1px solid var(--border3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.adapt2-check svg { width: 11px; height: 11px; stroke: var(--blue-600); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.adapt2-item-t { font-family: 'League Spartan', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.adapt2-item-s { font-family: 'Libre Baskerville', serif; font-size: 12px; color: var(--ink4); line-height: 1.6; }
 
-/* ─── RESULTS / SOCIAL PROOF ─── */
-.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px}
-.result-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px}
-.result-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--accent);line-height:1;margin-bottom:6px}
-.result-num span{font-size:28px}
-.result-label{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px}
-.result-desc{font-size:13px;color:var(--ink4);line-height:1.65}
-
-/* ─── CTA ─── */
-.cta-bg{background:var(--accent)}
-.cta-inner{max-width:700px;margin:0 auto;text-align:center}
-.cta-inner h2{font-size:clamp(40px,6vw,72px);color:#fff;margin-bottom:20px}
-.cta-inner p{font-size:17px;color:rgba(255,255,255,.7);margin-bottom:36px;font-weight:300}
-.btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent);text-decoration:none;font-weight:700;font-size:16px;padding:16px 36px;border-radius:10px;transition:all .2s}
-.btn-white:hover{background:var(--ink);color:#fff;transform:translateY(-1px)}
-.cta-note{margin-top:20px;font-size:13px;color:rgba(255,255,255,.5)}
+/* ─── CTA (dark gold) ─── */
+.cta-bg { background: var(--blue-950); }
+.cta-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+.cta-inner h2 { font-size: clamp(36px,5.5vw,64px); font-weight: 900; color: var(--gold2); margin-bottom: 22px; letter-spacing: -0.02em; line-height: 1.05; }
+.cta-inner .lead { font-family: 'Libre Baskerville', serif; font-size: 18px; color: rgba(255,255,255,.65); margin-bottom: 16px; line-height: 1.8; font-style: italic; }
+.cta-inner .lead2 { font-family: 'Libre Baskerville', serif; font-size: 16px; color: rgba(255,255,255,.55); margin-bottom: 40px; line-height: 1.8; }
+.cta-options { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 36px; }
+.cta-opt {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px; padding: 18px 14px; text-align: center;
+  font-family: 'League Spartan', sans-serif; font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.6); line-height: 1.5;
+  transition: all .2s; cursor: pointer; text-decoration: none; display: block;
+}
+.cta-opt:hover { background: rgba(201,150,10,.15); border-color: rgba(230,176,32,.4); color: var(--gold2); }
+.cta-main {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold); color: var(--blue-950); text-decoration: none;
+  font-family: 'League Spartan', sans-serif; font-weight: 800; font-size: 16px;
+  padding: 17px 38px; border-radius: 10px; transition: all .2s; letter-spacing: -.01em;
+}
+.cta-main:hover { background: var(--gold2); transform: translateY(-2px); }
+.cta-note { margin-top: 18px; font-family: 'Libre Baskerville', serif; font-size: 13px; color: rgba(255,255,255,.25); font-style: italic; }
 
 /* ─── FOOTER ─── */
-footer{background:var(--ink);padding:60px 5% 32px;color:rgba(255,255,255,.4)}
-.footer-inner{max-width:1100px;margin:0 auto}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:32px}
-.footer-brand-name{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:.06em;margin-bottom:12px}
-.footer-brand p{font-size:13px;line-height:1.7;max-width:260px}
-.footer-col h6{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:14px;letter-spacing:.04em}
-.footer-col a{display:block;color:rgba(255,255,255,.4);text-decoration:none;font-size:13px;margin-bottom:8px;transition:color .2s}
-.footer-col a:hover{color:#fff}
-.footer-bottom{display:flex;justify-content:space-between;font-size:12px;flex-wrap:wrap;gap:8px}
+footer { background: var(--blue-900); padding: 56px 5% 32px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 28px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.footer-logo-mark { width: 26px; height: 26px; background: var(--blue-600); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+.footer-logo-mark svg { width: 13px; height: 13px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.footer-logo-text { font-family: 'League Spartan', sans-serif; font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+.footer-brand p { font-family: 'Libre Baskerville', serif; font-size: 13px; line-height: 1.7; color: rgba(255,255,255,.4); max-width: 240px; }
+.footer-col h6 { font-family: 'League Spartan', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.5); margin-bottom: 14px; letter-spacing: .1em; text-transform: uppercase; }
+.footer-col a { display: block; color: rgba(255,255,255,.35); text-decoration: none; font-family: 'League Spartan', sans-serif; font-size: 13px; font-weight: 500; margin-bottom: 8px; transition: color .2s; }
+.footer-col a:hover { color: #fff; }
+.footer-bottom { display: flex; justify-content: space-between; font-family: 'League Spartan', sans-serif; font-size: 12px; color: rgba(255,255,255,.25); flex-wrap: wrap; gap: 8px; }
 
-/* ─── SCROLL REVEAL ─── */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
-.reveal.visible{opacity:1;transform:none}
+/* ─── REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity: 1; transform: none; }
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:960px){
-  .hero{grid-template-columns:1fr;min-height:auto;padding-top:100px}
-  .hero-r{display:none}
-  .what-grid,.roi-grid,.fmc-grid{grid-template-columns:1fr;gap:48px}
-  .modules-grid{grid-template-columns:repeat(2,1fr)}
-  .mod.accent-mod{grid-column:span 2}
-  .how-grid{grid-template-columns:1fr 1fr}
-  .how-grid::before{display:none}
-  .price-grid{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr 1fr}
-  .footer-top{grid-template-columns:1fr 1fr}
-  nav .nav-r a:not(.nav-cta){display:none}
+  .sol-grid,.auth-grid,.adapt-inner,.adapt2-inner { grid-template-columns: 1fr; gap: 48px; }
+  .metrics-3,.pillars-grid { grid-template-columns: 1fr; }
+  .metric-block::after { display: none; }
+  .how-steps { grid-template-columns: 1fr 1fr; }
+  .how-steps::before { display: none; }
+  .cta-options { grid-template-columns: 1fr; }
+  .adapt-industries { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  nav .nav-r a:not(.nav-cta) { display: none; }
 }
 @media(max-width:600px){
-  .modules-grid{grid-template-columns:1fr}
-  .mod.accent-mod{grid-column:span 1}
-  .how-grid{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr}
-  .band{gap:20px}
-  .band-sep{display:none}
-  .hero-proof{gap:20px}
+  .how-steps { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .band { gap: 16px; }
+  .band-sep { display: none; }
 }
 </style>
 </head>
@@ -283,421 +407,335 @@ footer{background:var(--ink);padding:60px 5% 32px;color:rgba(255,255,255,.4)}
 <!-- NAV -->
 <nav>
   <a href="#" class="logo">
-    <div class="logo-dot"></div>
-    <span class="logo-name">EBIT-Q</span>
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="logo-text">EBIT-Q</span>
     <span class="logo-by">by FMCDatalab</span>
   </a>
   <div class="nav-r">
-    <a href="#diagnostico">El diagnóstico</a>
-    <a href="#roi">ROI</a>
-    <a href="#fmcdatalab">FMCDatalab</a>
-    <a href="#contacto" class="nav-cta">Hablar con un experto</a>
+    <a href="#sistema">El sistema</a>
+    <a href="#capacidades">Capacidades</a>
+    <a href="#como">Cómo funciona</a>
+    <a href="#contacto" class="nav-cta">Veamos qué está perdiendo →</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<div style="max-width:1300px;margin:0 auto">
 <section class="hero">
-  <div class="hero-l">
-    <div class="hero-tag">
-      <div class="hero-tag-dot"></div>
-      Diagnóstico empresarial 360°
-    </div>
-    <h1 class="big">Lo que más le<br>cuesta a tu empresa<br><em>no aparece en<br>ningún estado<br>de resultados.</em></h1>
-    <p class="hero-sub">
-      Más EBITDA. Con lo que ya tienes. <strong>Sin nuevas inversiones</strong> — solo cerrando las fugas invisibles en tus procesos que nadie estaba viendo.
-    </p>
-    <div class="hero-actions">
-      <a href="#contacto" class="btn-p">→ Solicitar diagnóstico</a>
-      <a href="#diagnostico" class="btn-s">↓ Ver cómo funciona</a>
-    </div>
-    <div class="hero-proof">
-      <div class="proof-item">
-        <div class="proof-num">3<span> días</span></div>
-        <div class="proof-lbl">Diagnóstico completo<br>vs. semanas tradicional</div>
-      </div>
-      <div class="proof-item">
-        <div class="proof-num">8</div>
-        <div class="proof-lbl">Áreas de la empresa<br>evaluadas simultáneamente</div>
-      </div>
-      <div class="proof-item">
-        <div class="proof-num">ROI</div>
-        <div class="proof-lbl">Calculado en pesos<br>colombianos, no en estimados</div>
-      </div>
-    </div>
+  <div class="hero-tag">
+    <div class="pulse"></div>
+    Diagnóstico de rentabilidad empresarial
   </div>
-
-  <div class="hero-r">
-    <div class="floating-tag">ROI calculado: +1,898%</div>
-    <div class="dash-mock">
-      <div class="dash-top">
-        <span class="dash-title">Diagnóstico de madurez organizacional</span>
-        <span class="dash-badge">Completado</span>
-      </div>
-      <div class="dash-modules">
-        <div class="dm">
-          <div class="dm-name">Diagnóstico Operativo</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:38%;background:#b5311f"></div></div>
-          <span class="dm-pct" style="color:#b5311f">38% — Crítico</span>
-        </div>
-        <div class="dm">
-          <div class="dm-name">Mapa de Procesos</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:52%;background:#c8901a"></div></div>
-          <span class="dm-pct" style="color:#c8901a">52% — En desarrollo</span>
-        </div>
-        <div class="dm">
-          <div class="dm-name">Planeación Empresarial</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:71%;background:#1a6e3a"></div></div>
-          <span class="dm-pct" style="color:#1a6e3a">71% — Maduro</span>
-        </div>
-        <div class="dm">
-          <div class="dm-name">KPIs e Indicadores</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:45%;background:#c8901a"></div></div>
-          <span class="dm-pct" style="color:#c8901a">45% — En desarrollo</span>
-        </div>
-        <div class="dm">
-          <div class="dm-name">Tecnología y Datos</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:29%;background:#b5311f"></div></div>
-          <span class="dm-pct" style="color:#b5311f">29% — Crítico</span>
-        </div>
-        <div class="dm">
-          <div class="dm-name">Decisiones Gerenciales</div>
-          <div class="dm-bar-wrap"><div class="dm-bar" style="width:63%;background:#c8901a"></div></div>
-          <span class="dm-pct" style="color:#c8901a">63% — En desarrollo</span>
-        </div>
-      </div>
-      <div class="roi-strip">
-        <div>
-          <div class="roi-strip-l">Impacto económico potencial / año</div>
-          <div class="roi-strip-num">$2.340M COP</div>
-          <div class="roi-strip-sub">Escenario esperado · 6 módulos activos</div>
-        </div>
-        <div style="text-align:right">
-          <div class="roi-strip-l">Recuperación</div>
-          <div class="roi-strip-num" style="font-size:24px">0.7 meses</div>
-        </div>
-      </div>
-    </div>
+  <h1 class="hero-h">
+    Hay dinero que<br>ya es tuyo.<br><em>Y se está escapando.</em>
+  </h1>
+  <p class="hero-sub">
+    Su equipo hace un trabajo increíble. Pero a veces los procesos crean fugas que nadie puede detectar a simple vista. <strong>Queremos ayudarlos a liberar ese margen que ya se ganaron.</strong>
+  </p>
+  <p class="hero-sub-2">
+    "Usted conoce su negocio mejor que nadie. Nosotros solo traemos la instrumentación de precisión para que sus decisiones tengan un 100% de respaldo en datos reales."
+  </p>
+  <div class="hero-btn">
+    <a href="#contacto" class="btn-g">→ Hagamos un primer barrido</a>
   </div>
 </section>
-</div>
 
 <!-- BAND -->
 <div class="band">
-  <div class="band-item">📊 Diagnóstico estructurado en 8 dimensiones</div>
+  <div class="band-i">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Radar de fugas de rentabilidad
+  </div>
   <div class="band-sep"></div>
-  <div class="band-item">💰 ROI calculado en pesos colombianos</div>
+  <div class="band-i">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    ROI calculado en pesos reales
+  </div>
   <div class="band-sep"></div>
-  <div class="band-item">🗓️ Plan de mejora de 90 días automático</div>
+  <div class="band-i">
+    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Adaptado a su industria y operación
+  </div>
   <div class="band-sep"></div>
-  <div class="band-item">🔧 Implementación con FMCDatalab</div>
+  <div class="band-i">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Plan de 90 días automático
+  </div>
 </div>
 
-<!-- WHAT IS IT -->
-<section class="section" id="diagnostico">
-  <div class="section-inner">
-    <div class="what-grid">
-      <div class="what-l reveal">
-        <div class="eyebrow">Qué es EBIT-Q</div>
-        <h2 class="sec-title">No es un reporte.<br>Es un mapa<br>del dinero oculto<br>en tu empresa.</h2>
-        <p>La mayoría de empresas medianas tiene brechas organizacionales que les cuestan millones al año — en reprocesos, en decisiones tardías, en datos mal manejados, en procesos sin documentar. El problema es que nadie las ve porque nadie las mide.</p>
-        <p>EBIT-Q hace exactamente eso: <strong>mide todo, lo pone en números</strong> y te entrega un diagnóstico completo con el impacto económico exacto de cada brecha. En 3 días hábiles, no en semanas.</p>
-        <p>El resultado no es un documento de 80 páginas que nadie lee. Es <strong>un tablero claro, un ROI concreto y un plan de 90 días para actuar</strong>.</p>
-      </div>
-      <div class="pillars reveal">
-        <div class="pillar">
-          <div class="pillar-icon blue">🔍</div>
-          <div>
-            <h4>El diagnóstico</h4>
-            <p>49 preguntas estructuradas adaptadas a tu industria evalúan las 8 dimensiones organizacionales más críticas de tu negocio, con evidencias y observaciones incluidas.</p>
-          </div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon gold">💰</div>
-          <div>
-            <h4>El ROI en pesos reales</h4>
-            <p>Cada brecha identificada se traduce a pesos colombianos usando benchmarks de McKinsey, Deloitte y Bain, con los datos financieros reales de tu empresa.</p>
-          </div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon green">🗓️</div>
-          <div>
-            <h4>El plan de acción</h4>
-            <p>Al finalizar el diagnóstico, la plataforma genera automáticamente un plan de 90 días con iniciativas priorizadas, responsables y métricas de éxito.</p>
-          </div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-icon blue">🔧</div>
-          <div>
-            <h4>La implementación (opcional)</h4>
-            <p>FMCDatalab puede encargarse de ejecutar el plan de mejoras identificadas con un equipo de consultores especializados. El diagnóstico y la implementación son servicios independientes.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MODULES -->
-<section class="section modules-bg" id="modulos">
-  <div class="section-inner">
-    <div class="mod-intro reveal">
-      <div class="eyebrow">Las 8 dimensiones</div>
-      <h2 class="sec-title">Una consultoría de 360° que cubre cada ángulo de tu empresa.</h2>
-      <p class="sec-sub">Puedes tomar el diagnóstico completo o seleccionar los módulos más relevantes para tu situación actual. Cada módulo tiene precio independiente.</p>
-    </div>
-    <div class="modules-grid">
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 01</span>
-        <span class="mod-ico">⚙️</span>
-        <h4>Diagnóstico Operativo</h4>
-        <p>Eficiencia productiva, reprocesos, paradas no programadas y capacidad real instalada.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 02</span>
-        <span class="mod-ico">🗺️</span>
-        <h4>Mapa de Procesos</h4>
-        <p>Documentación de procesos, roles, responsabilidades y flujos entre áreas.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 03</span>
-        <span class="mod-ico">🎯</span>
-        <h4>Planeación Empresarial</h4>
-        <p>Estrategia, presupuesto, metas y alineación de objetivos con los equipos.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 04</span>
-        <span class="mod-ico">📐</span>
-        <h4>Estandarización de Procesos</h4>
-        <p>Procedimientos operativos, controles de calidad y gestión de no conformidades.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 05</span>
-        <span class="mod-ico">📦</span>
-        <h4>Control y Gestión Operativa</h4>
-        <p>Inventarios, exactitud de stock, entregas a tiempo y control operativo en tiempo real.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 06</span>
-        <span class="mod-ico">💻</span>
-        <h4>Tecnología y Calidad del Dato</h4>
-        <p>ERP, maestros de datos, herramientas BI y autonomía analítica del equipo directivo.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 07</span>
-        <span class="mod-ico">📈</span>
-        <h4>KPIs e Indicadores de Gestión</h4>
-        <p>Definición, fórmulas, semáforos y cultura de seguimiento de indicadores.</p>
-      </div>
-      <div class="mod reveal">
-        <span class="mod-num">MÓDULO 08</span>
-        <span class="mod-ico">🧠</span>
-        <h4>Toma de Decisiones Gerenciales</h4>
-        <p>Calidad, oportunidad y autonomía de las decisiones de la alta dirección.</p>
-      </div>
-      <div class="mod accent-mod reveal">
-        <div>
-          <span class="mod-premium-badge">Premium · IA incluida</span>
-          <span class="mod-num">MÓDULO 11</span>
-          <h4>CFO IA — Asesoría Financiera con Inteligencia Artificial</h4>
-          <p>Análisis Pareto de clientes, clasificación ABC de inventario, estructura de costos, alertas automáticas de margen y chat financiero con IA. Tus datos financieros, procesados con inteligencia, sin salir de la plataforma.</p>
-        </div>
-      </div>
-      <div class="mod gold-mod reveal">
-        <span class="mod-num">MÓDULO 12</span>
-        <span class="mod-ico">🏭</span>
-        <h4>Perfil de Industria Adaptativo</h4>
-        <p>16 perfiles sectoriales. Las preguntas y los benchmarks se adaptan automáticamente a tu industria.</p>
-      </div>
-    </div>
-    <p class="mod-note">* El diagnóstico puede contratarse completo (8 módulos) o por módulos individuales según las prioridades de tu empresa.</p>
-  </div>
-</section>
-
-<!-- ROI -->
-<section class="section roi-bg" id="roi">
-  <div class="section-inner">
+<!-- METRICS -->
+<section class="sec metrics-bg">
+  <div class="sec-inner">
     <div class="reveal">
-      <div class="eyebrow dark">Calculadora de impacto</div>
-      <h2 class="sec-title white" style="max-width:600px;margin-top:16px">¿Cuánto vale encontrar las brechas de tu empresa?</h2>
+      <div class="tag dark">Lo que encuentra EBIT-Q</div>
+      <h2 class="st white" style="margin-top:12px;max-width:520px">Tres tipos de margen que su empresa ya generó — y no está recibiendo.</h2>
     </div>
-    <div class="roi-grid">
-      <div class="roi-explain reveal">
-        <p>EBIT-Q no te da un reporte cualitativo. Te da un número: <strong>cuánto dinero está perdiendo tu empresa hoy</strong>, y cuánto puede recuperar si implementa las mejoras.</p>
-        <p>Cada módulo tiene su propia calculadora de impacto, construida sobre cifras financieras reales de tu empresa — no sobre promedios genéricos.</p>
-        <p>El resultado es un ROI de la inversión en diagnóstico + implementación, con tres escenarios: conservador, esperado y optimista.</p>
-        <div class="roi-items">
-          <div class="roi-item"><span class="roi-item-l">⚙️ Diagnóstico Operativo</span><span class="roi-item-r">Reducción reprocesos 10–15%</span></div>
-          <div class="roi-item"><span class="roi-item-l">📐 Estandarización</span><span class="roi-item-r">–12% costos de no calidad</span></div>
-          <div class="roi-item"><span class="roi-item-l">🎯 Planeación</span><span class="roi-item-r">+3.5% revenue por alineación</span></div>
-          <div class="roi-item"><span class="roi-item-l">💻 Tecnología y Datos</span><span class="roi-item-r">–4% COGS por visibilidad</span></div>
-          <div class="roi-item"><span class="roi-item-l">📈 KPIs</span><span class="roi-item-r">+4.5% margen operativo</span></div>
-          <div class="roi-item"><span class="roi-item-l">🧠 Decisiones Gerenciales</span><span class="roi-item-r">+2.5% revenue lift</span></div>
+    <div class="metrics-3 reveal">
+      <div class="metric-block">
+        <div class="metric-ico">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="metric-n">15<span>%</span></div>
+        <div class="metric-label">Recuperación de margen operativo</div>
+        <div class="metric-desc">Reprocesos, paradas no programadas y capacidad mal utilizada que se traduce en pesos perdidos cada mes — sin que nadie lo esté viendo.</div>
+      </div>
+      <div class="metric-block">
+        <div class="metric-ico">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <div class="metric-n">12<span>%</span></div>
+        <div class="metric-label">Reducción de costos ocultos</div>
+        <div class="metric-desc">Costos de no calidad, duplicidades y decisiones tardías que ningún estado de resultados refleja — pero que su empresa está pagando.</div>
+      </div>
+      <div class="metric-block">
+        <div class="metric-ico">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="metric-n">4.5<span>%</span></div>
+        <div class="metric-label">Mejora directa en EBITDA</div>
+        <div class="metric-desc">Ingreso incremental por alineación estratégica, visibilidad financiera y decisiones basadas en datos — no en intuición.</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:'Libre Baskerville',serif;font-size:12px;color:rgba(255,255,255,.2);margin-top:20px;font-style:italic">Rangos basados en benchmarks McKinsey, Deloitte y Bain & Co. El impacto real se calcula con las cifras financieras de su empresa.</p>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="sec sol-bg" id="sistema">
+  <div class="sec-inner">
+    <div class="sol-grid">
+      <div class="sol-l reveal">
+        <div class="tag blue">El sistema</div>
+        <h2 class="st">EBIT-Q: el radar de fugas de rentabilidad de su empresa.</h2>
+        <p>Es normal que en el crecimiento se generen pequeñas fugas de rentabilidad — le pasa a las mejores empresas del mundo. <strong>Nuestro sistema EBIT-Q actúa como un radar</strong> para que usted y su equipo puedan detectar esas fugas y sellarlas antes de que afecten el cierre.</p>
+        <p>No venimos a cambiar lo que hacen bien. <em>Venimos a iluminar lo que puede mejorar aún más.</em></p>
+        <p>Al final, lo que buscamos es que cuando mire sus estados de resultados, sienta la tranquilidad de que <strong>cada peso está donde debe estar.</strong></p>
+        <div class="adapt-pill">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No es un diagnóstico genérico. Se adapta a su industria, su tamaño y su operación específica — desde manufactura hasta distribución hospitalaria.
         </div>
       </div>
-      <div class="roi-card reveal">
-        <div class="roi-card-label">Ejemplo real — escenario esperado</div>
-        <div class="roi-eg-title">Empresa</div>
-        <div class="roi-eg-co">Industrias Andinas S.A.S. · Manufactura · $12.000M COP/año en ventas</div>
-        <div class="roi-big">$2.340M</div>
-        <div class="roi-big-sub">COP / año — impacto económico total potencial (6 módulos activos)</div>
-        <div class="roi-rows">
-          <div class="roi-row"><span class="roi-row-k">Ahorro en operación y procesos</span><span class="roi-row-v g">$1.620M COP</span></div>
-          <div class="roi-row"><span class="roi-row-k">Ingreso incremental por mejoras</span><span class="roi-row-v g">$720M COP</span></div>
-          <div class="roi-row"><span class="roi-row-k">Inversión total (diagnóstico + impl.)</span><span class="roi-row-v">$45M COP</span></div>
-          <div class="roi-row"><span class="roi-row-k">ROI de la inversión</span><span class="roi-row-v g">+5.100%</span></div>
-          <div class="roi-row"><span class="roi-row-k">Período de recuperación</span><span class="roi-row-v g">0.7 meses</span></div>
+      <div class="reveal">
+        <div class="sol-radar">
+          <div class="radar-lbl">Radar de rentabilidad — 8 dimensiones</div>
+          <div class="ri"><span class="ri-name">Eficiencia operativa</span><div class="ri-bg"><div class="ri-fill c" style="width:38%"></div></div><span class="ri-pct c">38%</span></div>
+          <div class="ri"><span class="ri-name">Mapa de procesos</span><div class="ri-bg"><div class="ri-fill w" style="width:52%"></div></div><span class="ri-pct w">52%</span></div>
+          <div class="ri"><span class="ri-name">Planeación</span><div class="ri-bg"><div class="ri-fill ok" style="width:74%"></div></div><span class="ri-pct ok">74%</span></div>
+          <div class="ri"><span class="ri-name">Estandarización</span><div class="ri-bg"><div class="ri-fill w" style="width:48%"></div></div><span class="ri-pct w">48%</span></div>
+          <div class="ri"><span class="ri-name">Control operativo</span><div class="ri-bg"><div class="ri-fill c" style="width:35%"></div></div><span class="ri-pct c">35%</span></div>
+          <div class="ri"><span class="ri-name">Tecnología y datos</span><div class="ri-bg"><div class="ri-fill w" style="width:55%"></div></div><span class="ri-pct w">55%</span></div>
+          <div class="ri"><span class="ri-name">KPIs e indicadores</span><div class="ri-bg"><div class="ri-fill w" style="width:50%"></div></div><span class="ri-pct w">50%</span></div>
+          <div class="ri"><span class="ri-name">Decisiones gerenciales</span><div class="ri-bg"><div class="ri-fill c" style="width:41%"></div></div><span class="ri-pct c">41%</span></div>
+          <div class="radar-total">
+            <div>
+              <div class="rt-l">Margen recuperable / año</div>
+              <div class="rt-v">$2.340M COP</div>
+            </div>
+            <div>
+              <div class="rt-r-l">ROI del diagnóstico</div>
+              <div class="rt-r-v">+5.100%</div>
+            </div>
+          </div>
         </div>
-        <p class="roi-disclaimer">Proyecciones basadas en benchmarks de McKinsey, Deloitte y Bain & Co. para mercados emergentes. El impacto real depende de la calidad de la implementación y el compromiso directivo.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section how-bg" id="como-funciona">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="eyebrow">Cómo funciona</div>
-      <h2 class="sec-title">Del diagnóstico al resultado<br>en 4 pasos.</h2>
+<!-- PILLARS -->
+<section class="sec pillars-bg" id="capacidades">
+  <div class="sec-inner">
+    <div class="pillars-header reveal">
+      <div class="tag blue">Capacidades del sistema</div>
+      <h2 class="st" style="margin-top:12px">Tres capacidades. Un resultado: más EBITDA.</h2>
+      <p class="ssub" style="margin:14px auto 0">Liberamos el margen operativo de su empresa mediante datos claros y procesos fluidos. Sin complicaciones — solo claridad.</p>
     </div>
-    <div class="how-grid">
-      <div class="how-step done reveal">
-        <div class="how-num">1</div>
-        <h4>Configuración y perfil de industria</h4>
-        <p>Definimos el alcance del diagnóstico y el sistema adapta automáticamente las preguntas al sector de tu empresa.</p>
-        <span class="how-time">~15 min</span>
+    <div class="pillars-grid">
+      <div class="pillar reveal">
+        <div class="pillar-ico eff">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+        <span class="pillar-name">Eficiencia</span>
+        <h3>Control operativo real</h3>
+        <div class="pillar-mods">
+          <div class="pmod"><div class="pmod-dot"></div>Diagnóstico Operativo</div>
+          <div class="pmod"><div class="pmod-dot"></div>Mapa de Procesos</div>
+          <div class="pmod"><div class="pmod-dot"></div>Control y Gestión Operativa</div>
+        </div>
       </div>
-      <div class="how-step done reveal">
-        <div class="how-num">2</div>
-        <h4>Evaluación con tu equipo directivo</h4>
-        <p>Gerentes y jefes de área responden desde cualquier dispositivo. Cada respuesta puede incluir evidencias y observaciones de campo.</p>
-        <span class="how-time">2–3 horas</span>
+      <div class="pillar reveal">
+        <div class="pillar-ico int">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <span class="pillar-name">Inteligencia</span>
+        <h3>Visibilidad financiera</h3>
+        <div class="pillar-mods">
+          <div class="pmod"><div class="pmod-dot"></div>Estandarización de Procesos</div>
+          <div class="pmod"><div class="pmod-dot"></div>Tecnología y Calidad del Dato</div>
+          <div class="pmod"><div class="pmod-dot"></div>KPIs e Indicadores de Gestión</div>
+          <div class="pmod premium"><div class="pmod-dot"></div>CFO IA — Módulo Premium</div>
+        </div>
       </div>
-      <div class="how-step done reveal">
-        <div class="how-num">3</div>
-        <h4>Resultados, ROI y plan de 90 días</h4>
-        <p>La plataforma genera automáticamente el reporte de madurez, el impacto económico en COP y el plan de mejora priorizado.</p>
-        <span class="how-time">Inmediato</span>
+      <div class="pillar reveal">
+        <div class="pillar-ico str">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <span class="pillar-name">Estrategia</span>
+        <h3>Decisiones con datos</h3>
+        <div class="pillar-mods">
+          <div class="pmod"><div class="pmod-dot"></div>Planeación Empresarial</div>
+          <div class="pmod"><div class="pmod-dot"></div>Toma de Decisiones Gerenciales</div>
+          <div class="pmod"><div class="pmod-dot"></div>Perfil de Industria Adaptativo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADAPT 1 -->
+<section class="sec adapt-bg">
+  <div class="sec-inner">
+    <div class="adapt-inner">
+      <div class="adapt-l reveal">
+        <div class="tag light">Diferenciador clave</div>
+        <h2>No es un diagnóstico genérico. Nunca.</h2>
+        <p>Sabemos que gestionar una operación de este tamaño es un reto constante. A veces, por más que el equipo se esfuerce, hay puntos ciegos financieros que son imposibles de ver sin las herramientas adecuadas.</p>
+        <p><strong>Juntos identificamos las oportunidades de mejora que el día a día suele ocultar.</strong></p>
+        <p>EBIT-Q adapta sus preguntas, benchmarks y cálculos de impacto al sector, tamaño y realidad operativa de cada empresa. Lo que detecta el radar es lo que le importa a su negocio.</p>
+      </div>
+      <div class="adapt-industries reveal">
+        <div class="ind"><span class="ind-ico">🏭</span>Manufactura</div>
+        <div class="ind"><span class="ind-ico">🏥</span>Distribución hospitalaria</div>
+        <div class="ind"><span class="ind-ico">🛒</span>Retail y comercio</div>
+        <div class="ind"><span class="ind-ico">🚚</span>Logística y transporte</div>
+        <div class="ind"><span class="ind-ico">🏗️</span>Construcción</div>
+        <div class="ind"><span class="ind-ico">💼</span>Servicios profesionales</div>
+        <div class="ind"><span class="ind-ico">🍽️</span>Alimentos y bebidas</div>
+        <div class="ind"><span class="ind-ico">⚡</span>Energía y utilities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="sec how-bg" id="como">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="tag blue">Cómo funciona</div>
+      <h2 class="st" style="margin-top:12px">De las fugas al plan de acción.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-n">1</div>
+        <h4>Configuración por industria</h4>
+        <p>El sistema adapta automáticamente las preguntas y benchmarks al sector y tamaño de su empresa.</p>
       </div>
       <div class="how-step reveal">
-        <div class="how-num">4</div>
-        <h4>Implementación con FMCDatalab (opcional)</h4>
-        <p>Si lo decides, FMCDatalab se encarga de ejecutar las mejoras identificadas con un equipo de consultores especializados.</p>
-        <span class="how-time">Según alcance</span>
+        <div class="how-n">2</div>
+        <h4>Evaluación con el equipo directivo</h4>
+        <p>Gerentes y jefes de área responden desde cualquier dispositivo, con evidencias y observaciones de campo.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-n">3</div>
+        <h4>Mapa de fugas y ROI calculado</h4>
+        <p>La plataforma genera el radar de rentabilidad, el impacto en COP y el plan de 90 días de forma automática.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-n">4</div>
+        <h4>Implementación con FMCDatalab</h4>
+        <p>Si lo decide, nuestro equipo ejecuta el plan de mejoras. El diagnóstico y la implementación son independientes.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- RESULTS -->
-<section class="section" id="resultados">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="eyebrow">Resultados típicos</div>
-      <h2 class="sec-title">Lo que encuentran<br>las empresas que se diagnostican.</h2>
-    </div>
-    <div class="results-grid">
-      <div class="result-card reveal">
-        <div class="result-num">7<span>×</span></div>
-        <div class="result-label">El diagnóstico se paga solo</div>
-        <p class="result-desc">En promedio, el impacto económico identificado en el diagnóstico supera 7 veces el costo del servicio. El ROI más bajo registrado fue 3×.</p>
+<!-- AUTHORITY -->
+<section class="sec auth-bg">
+  <div class="sec-inner">
+    <div class="auth-grid">
+      <div class="auth-l reveal">
+        <div class="tag blue">FMCDatalab</div>
+        <h2 class="st">Usted conoce su negocio. Nosotros ponemos los datos sobre la mesa.</h2>
+        <p>No llegamos a decirle cómo administrar su empresa. Llegamos a mostrarle, con números, lo que está pasando en cada área — y cuánto vale resolver cada problema.</p>
+        <p>El diagnóstico es independiente de la implementación. Usted decide hasta dónde llegar.</p>
       </div>
-      <div class="result-card reveal">
-        <div class="result-num">65<span>%</span></div>
-        <div class="result-label">De las empresas tienen módulos críticos que no sabían</div>
-        <p class="result-desc">Áreas con madurez por debajo del 40% que estaban generando pérdidas silenciosas sin que la gerencia lo supiera.</p>
-      </div>
-      <div class="result-card reveal">
-        <div class="result-num">90<span> días</span></div>
-        <div class="result-label">Para ver los primeros resultados</div>
-        <p class="result-desc">El plan de 90 días está diseñado para generar resultados medibles en el corto plazo, no transformaciones de 2 años.</p>
+      <div class="auth-quotes reveal">
+        <div class="auth-quote">
+          <p>"Juntos identificamos las oportunidades de mejora que el día a día suele ocultar."</p>
+        </div>
+        <div class="auth-quote">
+          <p>"Liberamos el margen operativo de su empresa mediante datos claros y procesos fluidos. Sin complicaciones — solo claridad."</p>
+        </div>
+        <div class="auth-quote">
+          <p>"¿Le gustaría que hiciéramos un primer barrido juntos para ver qué detecta el radar?"</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FMCDATALAB -->
-<section class="section fmc-bg" id="fmcdatalab">
-  <div class="section-inner">
-    <div class="fmc-grid">
-      <div class="fmc-l reveal">
-        <div class="eyebrow dark">Quiénes somos</div>
-        <h2 class="sec-title white">FMCDatalab:<br>la empresa detrás<br>del diagnóstico.</h2>
-        <p>FMCDatalab es una empresa de consultoría empresarial especializada en transformación organizacional. Combinamos metodología estructurada con visión gerencial para que las mejoras no se queden en papel.</p>
-        <p>Somos los mismos que hacemos el diagnóstico y los mismos que podemos ejecutar el plan. No hay intermediarios, no hay pérdida de contexto — el equipo que identificó las brechas es el que sabe exactamente cómo cerrarlas.</p>
-        <div class="fmc-services">
-          <div class="fmc-svc">
-            <div class="fmc-svc-ico">🔍</div>
-            <div>
-              <h5>Diagnóstico organizacional con EBIT-Q</h5>
-              <p>Evaluación 360° de las 8 dimensiones críticas de tu empresa. Resultado en 3 días hábiles con ROI calculado en pesos colombianos.</p>
-            </div>
-          </div>
-          <div class="fmc-svc">
-            <div class="fmc-svc-ico">🔧</div>
-            <div>
-              <h5>Consultoría de implementación</h5>
-              <p>Ejecutamos el plan de mejoras con metodología probada. Acompañamiento directo al equipo directivo durante todo el proceso de transformación.</p>
-            </div>
-          </div>
-          <div class="fmc-svc">
-            <div class="fmc-svc-ico">📊</div>
-            <div>
-              <h5>Seguimiento de resultados</h5>
-              <p>Medimos el impacto real de cada iniciativa implementada y ajustamos el plan según los resultados obtenidos en terreno.</p>
-            </div>
-          </div>
+<!-- ADAPT 2 -->
+<section class="sec" style="background:var(--bg2)">
+  <div class="sec-inner">
+    <div class="adapt2-inner">
+      <div class="adapt2-l reveal">
+        <div class="tag blue">Adaptabilidad — por qué es diferente</div>
+        <h2>Cada diagnóstico es único. Como cada empresa.</h2>
+        <p>Dos empresas del mismo sector pueden tener problemas completamente distintos. EBIT-Q no aplica una plantilla genérica — construye el diagnóstico sobre la realidad operativa de cada cliente.</p>
+        <p>Puede tomar el diagnóstico completo de las 8 dimensiones, o enfocarse en los módulos donde siente que hay mayor pérdida. El alcance lo define usted.</p>
+        <div class="adapt2-tags">
+          <span class="atag">Por módulo individual</span>
+          <span class="atag">Diagnóstico completo</span>
+          <span class="atag">Por tamaño de empresa</span>
+          <span class="atag">Por industria</span>
+          <span class="atag">Con implementación</span>
+          <span class="atag">Solo diagnóstico</span>
         </div>
       </div>
-      <div class="reveal" style="display:flex;flex-direction:column;gap:16px">
-        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:32px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px">Lo que nos diferencia</div>
-          <div style="display:flex;flex-direction:column;gap:0">
-            <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;gap:14px;align-items:flex-start">
-              <span style="color:rgba(255,255,255,.3);font-size:13px;flex-shrink:0;padding-top:1px">01</span>
-              <div>
-                <div style="font-size:14px;color:#fff;font-weight:500;margin-bottom:3px">El diagnóstico y la implementación son del mismo equipo</div>
-                <div style="font-size:12px;color:rgba(255,255,255,.4)">No hay pérdida de contexto entre quien diagnostica y quien ejecuta.</div>
-              </div>
-            </div>
-            <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;gap:14px;align-items:flex-start">
-              <span style="color:rgba(255,255,255,.3);font-size:13px;flex-shrink:0;padding-top:1px">02</span>
-              <div>
-                <div style="font-size:14px;color:#fff;font-weight:500;margin-bottom:3px">Trabajamos con los datos reales de tu empresa</div>
-                <div style="font-size:12px;color:rgba(255,255,255,.4)">El ROI no es una estimación genérica — usa tus cifras financieras reales.</div>
-              </div>
-            </div>
-            <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;gap:14px;align-items:flex-start">
-              <span style="color:rgba(255,255,255,.3);font-size:13px;flex-shrink:0;padding-top:1px">03</span>
-              <div>
-                <div style="font-size:14px;color:#fff;font-weight:500;margin-bottom:3px">El plan de 90 días es accionable desde el día 1</div>
-                <div style="font-size:12px;color:rgba(255,255,255,.4)">No entregamos documentos de 80 páginas. Entregamos un plan que se ejecuta.</div>
-              </div>
-            </div>
-            <div style="padding:14px 0;display:flex;gap:14px;align-items:flex-start">
-              <span style="color:rgba(255,255,255,.3);font-size:13px;flex-shrink:0;padding-top:1px">04</span>
-              <div>
-                <div style="font-size:14px;color:#fff;font-weight:500;margin-bottom:3px">Diagnóstico y implementación son independientes</div>
-                <div style="font-size:12px;color:rgba(255,255,255,.4)">Puedes tomar solo el diagnóstico y ejecutar con tu propio equipo. Sin ataduras.</div>
-              </div>
-            </div>
-          </div>
+      <div class="adapt2-r reveal">
+        <div class="adapt2-r-title">Qué se adapta en cada diagnóstico</div>
+        <div class="adapt2-item">
+          <div class="adapt2-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="adapt2-item-t">Preguntas por industria</div><div class="adapt2-item-s">Las preguntas reflejan la operación real del sector, no conceptos genéricos.</div></div>
         </div>
-        <a href="#contacto" class="btn-p" style="justify-content:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff">→ Conocer al equipo de FMCDatalab</a>
+        <div class="adapt2-item">
+          <div class="adapt2-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="adapt2-item-t">Benchmarks sectoriales</div><div class="adapt2-item-s">Los rangos de impacto se calibran según el sector y el tamaño de la empresa.</div></div>
+        </div>
+        <div class="adapt2-item">
+          <div class="adapt2-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="adapt2-item-t">Cálculo de ROI con datos reales</div><div class="adapt2-item-s">El impacto se calcula con las cifras financieras reales de su empresa en COP.</div></div>
+        </div>
+        <div class="adapt2-item">
+          <div class="adapt2-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="adapt2-item-t">Plan de acción priorizado</div><div class="adapt2-item-s">Las iniciativas del plan de 90 días se ordenan según el impacto real detectado.</div></div>
+        </div>
+        <div class="adapt2-item">
+          <div class="adapt2-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="adapt2-item-t">Alcance flexible por módulo</div><div class="adapt2-item-s">Diagnóstico completo o por módulos específicos según sus prioridades.</div></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="section cta-bg" id="contacto">
-  <div class="cta-inner reveal">
-    <div class="eyebrow dark">Dar el primer paso</div>
-    <h2>¿Cuánto está dejando sobre la mesa tu empresa?</h2>
-    <p>Una conversación de 30 minutos con nuestro equipo es suficiente para darte una estimación de impacto y una propuesta a tu medida.</p>
-    <a href="mailto:contacto@fmcdatalab.com?subject=Quiero%20saber%20m%C3%A1s%20sobre%20EBIT-Q" class="btn-white">→ Hablar con el equipo de FMCDatalab</a>
-    <div class="cta-note">Sin compromisos. Sin presentaciones de 40 slides. Solo una conversación directa.</div>
+<section class="sec cta-bg" id="contacto">
+  <div class="sec-inner">
+    <div class="cta-inner reveal">
+      <div class="tag dark">El primer paso no cuesta nada</div>
+      <h2>¿Qué está perdiendo su empresa hoy?</h2>
+      <p class="lead">"Una conversación de 30 minutos es suficiente para hacer un primer barrido y darle una estimación de impacto antes de cualquier compromiso."</p>
+      <p class="lead2">Sin presentaciones genéricas. Sin compromisos. Solo datos sobre la mesa.</p>
+      <div class="cta-options">
+        <a href="mailto:contacto@fmcdatalab.com?subject=Hagamos un primer barrido" class="cta-opt">Hagamos un primer barrido →</a>
+        <a href="mailto:contacto@fmcdatalab.com?subject=Veamos qué está perdiendo mi empresa" class="cta-opt">Veamos qué está perdiendo hoy →</a>
+        <a href="mailto:contacto@fmcdatalab.com?subject=Identifiquemos las fugas de mi empresa" class="cta-opt">Identifiquemos las fugas →</a>
+      </div>
+      <a href="mailto:contacto@fmcdatalab.com" class="cta-main">→ Hablar con FMCDatalab</a>
+      <div class="cta-note">contacto@fmcdatalab.com · fmcdatalab.com</div>
+    </div>
   </div>
 </section>
 
@@ -706,28 +744,30 @@ footer{background:var(--ink);padding:60px 5% 32px;color:rgba(255,255,255,.4)}
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="footer-brand-name">EBIT-Q · FMCDatalab</div>
-        <p>Diagnóstico organizacional 360° y consultoría de implementación para empresas medianas en Colombia y Latinoamérica.</p>
+        <div class="footer-logo">
+          <div class="footer-logo-mark"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <span class="footer-logo-text">EBIT-Q · FMCDatalab</span>
+        </div>
+        <p>Diagnóstico de rentabilidad 360° y consultoría de implementación para empresas medianas en Colombia y Latinoamérica.</p>
       </div>
       <div class="footer-col">
         <h6>EBIT-Q</h6>
-        <a href="#diagnostico">Qué es</a>
-        <a href="#modulos">Los 8 módulos</a>
-        <a href="#roi">Calculadora ROI</a>
-        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#sistema">El sistema</a>
+        <a href="#capacidades">Capacidades</a>
+        <a href="#como">Cómo funciona</a>
+        <a href="#contacto">Contacto</a>
       </div>
       <div class="footer-col">
         <h6>FMCDatalab</h6>
-        <a href="#fmcdatalab">La empresa</a>
-        <a href="#fmcdatalab">Consultoría</a>
-        <a href="#fmcdatalab">Implementación</a>
-        <a href="#contacto">Contacto</a>
+        <a href="#sistema">Diagnóstico</a>
+        <a href="#como">Implementación</a>
+        <a href="#contacto">Hablar con el equipo</a>
       </div>
       <div class="footer-col">
         <h6>Legal</h6>
         <a href="#">Política de datos</a>
         <a href="#">Términos de servicio</a>
-        <a href="#">NDA estándar</a>
+        <a href="#">Confidencialidad</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -739,19 +779,18 @@ footer{background:var(--ink);padding:60px 5% 32px;color:rgba(255,255,255,.4)}
 
 <script>
 const io = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 60);
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'), i*70);
       io.unobserve(e.target);
     }
   });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 });
 </script>
