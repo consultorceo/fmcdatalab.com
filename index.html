@@ -417,7 +417,7 @@ footer { background: var(--blue-900); padding: 56px 5% 32px; }
     <a href="#sistema">El sistema</a>
     <a href="#capacidades">Capacidades</a>
     <a href="#como">Cómo funciona</a>
-    <a href="https://app.fmcdatalab.com" class="nav-cta">Veamos qué está perdiendo →</a>
+    <a href="#contacto" class="nav-cta">Veamos qué está perdiendo →</a>
   </div>
 </nav>
 
@@ -437,7 +437,7 @@ footer { background: var(--blue-900); padding: 56px 5% 32px; }
     "Usted conoce su negocio mejor que nadie. Nosotros solo traemos la instrumentación de precisión para que sus decisiones tengan un 100% de respaldo en datos reales."
   </p>
   <div class="hero-btn">
-    <a href="https://app.fmcdatalab.com" class="btn-g">→ Hagamos un primer barrido</a>
+    <a href="#contacto" class="btn-g">→ Hagamos un primer barrido</a>
   </div>
 </section>
 
@@ -728,11 +728,67 @@ footer { background: var(--blue-900); padding: 56px 5% 32px; }
       <h2>¿Qué está perdiendo su empresa hoy?</h2>
       <p class="lead">"Una conversación de 30 minutos es suficiente para hacer un primer barrido y darle una estimación de impacto antes de cualquier compromiso."</p>
       <p class="lead2">Sin presentaciones genéricas. Sin compromisos. Solo datos sobre la mesa.</p>
-      <div style="margin-bottom:36px">
-        <a href="https://app.fmcdatalab.com" class="cta-opt" style="max-width:420px;margin:0 auto">Comencemos tu diagnóstico personalizado →</a>
-      </div>
-      <a href="https://app.fmcdatalab.com" class="cta-main">→ Hablar con FMCDatalab</a>
+      <button onclick="document.getElementById('modal').style.display='flex'" class="cta-main">→ Hablar con FMCDatalab</button>
       <div class="cta-note">contacto@fmcdatalab.com · fmcdatalab.com</div>
+
+<!-- MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(10,22,40,0.85);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:20px;padding:40px;width:100%;max-width:520px;position:relative;box-shadow:0 24px 80px rgba(10,22,40,0.3);max-height:90vh;overflow-y:auto">
+    <button onclick="document.getElementById('modal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#7a96c2;font-size:22px;line-height:1;font-family:League Spartan,sans-serif">✕</button>
+    <div style="margin-bottom:28px">
+      <div style="font-family:League Spartan,sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2563b8;margin-bottom:10px">Primer contacto</div>
+      <h3 style="font-family:League Spartan,sans-serif;font-size:26px;font-weight:800;color:#0f2040;line-height:1.1;margin-bottom:8px">Cuéntenos sobre su empresa</h3>
+      <p style="font-family:Libre Baskerville,serif;font-size:14px;color:#3d5a8a;line-height:1.65">En menos de 24 horas un especialista de FMCDatalab se comunica con usted.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Nombre completo *</label>
+          <input type="text" id="f-nombre" required placeholder="Juan Pérez" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+        </div>
+        <div>
+          <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Cargo *</label>
+          <input type="text" id="f-cargo" required placeholder="Gerente General" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+        </div>
+      </div>
+      <div>
+        <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Empresa *</label>
+        <input type="text" id="f-empresa" required placeholder="Nombre de su empresa" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Correo electrónico *</label>
+          <input type="email" id="f-email" required placeholder="correo@empresa.com" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+        </div>
+        <div>
+          <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Teléfono / WhatsApp</label>
+          <input type="tel" id="f-tel" placeholder="+57 300 000 0000" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+        </div>
+      </div>
+      <div>
+        <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">Sector / Industria</label>
+        <select id="f-sector" style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:League Spartan,sans-serif;font-size:14px;color:#0f2040;background:#f4f7fc;outline:none">
+          <option value="">Seleccione su sector...</option>
+          <option>Manufactura</option>
+          <option>Distribución hospitalaria</option>
+          <option>Retail y comercio</option>
+          <option>Logística y transporte</option>
+          <option>Construcción</option>
+          <option>Servicios profesionales</option>
+          <option>Alimentos y bebidas</option>
+          <option>Energía y utilities</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:League Spartan,sans-serif;font-size:12px;font-weight:700;color:#1e3a6e;display:block;margin-bottom:5px">¿Qué área le genera más inquietud hoy?</label>
+        <textarea id="f-mensaje" rows="3" placeholder="Ej: Tenemos problemas de eficiencia operativa y no sabemos cuánto nos está costando..." style="width:100%;padding:11px 14px;border:1px solid rgba(37,99,184,0.25);border-radius:8px;font-family:Libre Baskerville,serif;font-size:13px;color:#0f2040;background:#f4f7fc;outline:none;resize:none;line-height:1.6"></textarea>
+      </div>
+      <button type="button" onclick="enviarFormulario()" style="background:#1e4a8a;color:#fff;font-family:League Spartan,sans-serif;font-size:15px;font-weight:800;padding:14px 28px;border-radius:9px;border:none;cursor:pointer;margin-top:4px">→ Enviar y comenzar mi diagnóstico</button>
+      <div id="form-msg" style="font-family:Libre Baskerville,serif;font-size:13px;text-align:center;display:none"></div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 </section>
@@ -776,6 +832,68 @@ footer { background: var(--blue-900); padding: 56px 5% 32px; }
 </footer>
 
 <script>
+// ── Supabase config (completar cuando tenga las credenciales) ──
+const SUPABASE_URL = 'https://ilyibdsimmpwlyepbekg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWliZHNpbW1wd2x5ZXBiZWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDI5OTEsImV4cCI6MjA5MTkxODk5MX0.t8ZIzJ5flkyzfbj3RSTTMPq_gB0VaDX59iaGKDdsR8o';
+
+// Test de conexión Supabase al cargar
+window.addEventListener('load', async () => {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/contactos?limit=1`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    console.log(r.ok ? '✓ Supabase conectado correctamente' : '✗ Error Supabase: ' + r.status);
+  } catch(e) { console.log('✗ Supabase no alcanzable:', e.message); }
+});
+  if (!SUPABASE_URL || !SUPABASE_KEY) return false;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/contactos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(datos)
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+async function enviarFormulario() {
+  const nombre  = document.getElementById('f-nombre').value.trim();
+  const cargo   = document.getElementById('f-cargo').value.trim();
+  const empresa = document.getElementById('f-empresa').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const tel     = document.getElementById('f-tel').value.trim();
+  const sector  = document.getElementById('f-sector').value;
+  const mensaje = document.getElementById('f-mensaje').value.trim();
+  const msg     = document.getElementById('form-msg');
+
+  if (!nombre || !cargo || !empresa || !email) {
+    msg.style.display = 'block';
+    msg.style.color = '#b5311f';
+    msg.textContent = 'Por favor complete los campos obligatorios (*)';
+    return;
+  }
+
+  const datos = { nombre, cargo, empresa, email, telefono: tel, sector, mensaje };
+
+  // Guardar en Supabase
+  const guardado = await guardarEnSupabase(datos);
+
+  // Armar y abrir correo
+  const cuerpo = `Nuevo contacto desde fmcdatalab.com\n\nNombre: ${nombre}\nCargo: ${cargo}\nEmpresa: ${empresa}\nCorreo: ${email}\nTeléfono / WhatsApp: ${tel || 'No indicado'}\nSector: ${sector || 'No indicado'}\n\nÁrea de mayor inquietud:\n${mensaje || 'No indicado'}`;
+  window.location.href = `mailto:consultorceo@fmcdatalab.com?subject=Nuevo contacto EBIT-Q — ${empresa}&body=${encodeURIComponent(cuerpo)}`;
+
+  msg.style.display = 'block';
+  msg.style.color = '#0f7a3e';
+  msg.textContent = guardado
+    ? '✓ Datos guardados. Redirigiendo a su cliente de correo...'
+    : 'Redirigiendo a su cliente de correo... Si no abre, escríbanos a consultorceo@fmcdatalab.com';
+}
+
 const io = new IntersectionObserver(entries => {
   entries.forEach((e,i) => {
     if(e.isIntersecting){
