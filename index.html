@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FMC DataLab — Opción B + C</title>
+<title>FMC DataLab — Estrategia empresarial impulsada por tecnología a la medida</title>
+<meta name="description" content="Estrategia empresarial impulsada por tecnología a la medida. Análisis, tecnología y acompañamiento, en un mismo lugar.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e4a8a'/%3E%3Cpolyline points='27 16 22 16 19 25 13 7 10 16 5 16' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -131,6 +133,25 @@ h2{font-family:var(--tit);font-weight:800;font-size:clamp(34px,4.6vw,60px);line-
 footer{padding:40px 0 34px;font-family:var(--mono);font-size:12px;color:var(--texto3)}
 footer .env{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
+/* formulario */
+.modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(4,9,22,.8);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}
+.modal.abierto{display:flex}
+.modal-caja{background:var(--crema);color:var(--tinta);border-radius:28px;padding:36px 34px 30px;width:100%;max-width:540px;position:relative;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal-cerrar{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:#fff;color:var(--tinta2);font-size:18px;cursor:pointer;line-height:1}
+.modal-cerrar:hover{background:var(--tinta);color:#fff}
+.modal .etq{color:var(--terra);margin-bottom:10px}
+.modal h3{font-family:var(--tit);font-weight:800;font-size:28px;line-height:1.05;letter-spacing:-.025em;margin-bottom:8px}
+.modal-intro{font-size:15px;color:var(--tinta2);margin-bottom:22px}
+.campos{display:flex;flex-direction:column;gap:13px}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.campo label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.campo input,.campo textarea{width:100%;padding:12px 14px;border:1.5px solid rgba(13,27,62,.14);border-radius:14px;font-family:var(--sans);font-size:15px;color:var(--tinta);background:#fff;outline:none;transition:border-color .2s}
+.campo input:focus,.campo textarea:focus{border-color:var(--terra)}
+.campo textarea{resize:vertical;min-height:88px}
+.modal .btn-l{justify-content:center;width:100%;margin-top:4px}
+#fc-msg{font-size:14px;text-align:center;display:none;padding:4px}
+@media(max-width:560px){.dos{grid-template-columns:1fr}.modal-caja{padding:30px 20px 24px;border-radius:22px}}
+
 @media(max-width:940px){
   .nav nav a:not(.cta){display:none}
   .hero-grid{grid-template-columns:1fr}
@@ -155,7 +176,7 @@ footer .env{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 <body>
 <header class="nav"><div class="env">
   <a class="marca" href="/"><span><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>FMC DataLab</a>
-  <nav><a href="#nosotros">Nosotros</a><a href="#metodo">Cómo trabajamos</a><a href="#herramientas">Herramientas</a><a class="cta" href="#contacto">Hablemos</a></nav>
+  <nav><a href="#nosotros">Nosotros</a><a href="#metodo">Cómo trabajamos</a><a href="#herramientas">Herramientas</a><a class="cta" href="#contacto" data-abrir-modal>Hablemos</a></nav>
 </div></header>
 
 <section class="hero"><div class="env">
@@ -164,7 +185,7 @@ footer .env{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
       <div class="saludo">👋 Somos FMC DataLab.</div>
       <h1>Estrategia empresarial impulsada por <span class="resalte">tecnología.</span></h1>
       <p class="hero-sub">Diseñamos las herramientas que traducen los datos de su empresa en decisiones claras. <strong>Tecnología desarrollada a medida</strong> para resolver los desafíos reales de cada organización, no software genérico.</p>
-      <div class="botones"><a class="btn btn-l" href="#contacto">Hablar con el equipo →</a><a class="btn btn-o" href="#metodo">Ver cómo trabajamos</a></div>
+      <div class="botones"><a class="btn btn-l" href="#contacto" data-abrir-modal>Hablar con el equipo →</a><a class="btn btn-o" href="#metodo">Ver cómo trabajamos</a></div>
     </div>
     <div class="charla" aria-label="Ejemplo de conversación con un gerente">
       <div class="charla-cab"><i></i> Así empiezan nuestras conversaciones</div>
@@ -230,9 +251,65 @@ footer .env{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   <div class="etq">// el primer paso no cuesta nada</div>
   <h2>¿Qué desafío de su empresa merece una <span class="resalte">solución a la medida?</span></h2>
   <p class="lead">Una conversación de 30 minutos es suficiente para entender su desafío y decirle con honestidad si podemos ayudarle.</p>
-  <a class="btn btn-l" href="#contacto">Hablar con FMC DataLab →</a>
+  <a class="btn btn-l" href="#contacto" data-abrir-modal>Hablar con FMC DataLab →</a>
   <div class="cierre-nota">Sin presentaciones genéricas · Sin compromiso · Honestidad primero</div>
 </div></section>
 <footer><div class="env"><span>© 2026 FMC DataLab</span><span>fmcdatalab.com · contacto@fmcdatalab.com</span></div></footer>
+
+<!-- FORMULARIO DE CONTACTO -->
+<div class="modal" id="modal-contacto" role="dialog" aria-modal="true" aria-labelledby="modal-tit">
+  <div class="modal-caja">
+    <button type="button" class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar">✕</button>
+    <div class="etq">// primer contacto</div>
+    <h3 id="modal-tit">Cuéntenos sobre su organización</h3>
+    <p class="modal-intro">En menos de 24 horas alguien de FMC DataLab se comunica con usted.</p>
+    <div class="campos">
+      <div class="dos">
+        <div class="campo"><label for="fc-nombre">Nombre completo *</label><input id="fc-nombre" type="text" placeholder="Juan Pérez" autocomplete="name"></div>
+        <div class="campo"><label for="fc-cargo">Cargo / Rol *</label><input id="fc-cargo" type="text" placeholder="Gerente General" autocomplete="organization-title"></div>
+      </div>
+      <div class="campo"><label for="fc-empresa">Empresa / Organización *</label><input id="fc-empresa" type="text" placeholder="Nombre de su organización" autocomplete="organization"></div>
+      <div class="dos">
+        <div class="campo"><label for="fc-email">Correo electrónico *</label><input id="fc-email" type="email" placeholder="correo@empresa.com" autocomplete="email"></div>
+        <div class="campo"><label for="fc-tel">Teléfono / WhatsApp</label><input id="fc-tel" type="tel" placeholder="+57 300 000 0000" autocomplete="tel"></div>
+      </div>
+      <div class="campo"><label for="fc-mensaje">¿Qué desafío quiere resolver?</label><textarea id="fc-mensaje" rows="3" placeholder="Ej: necesitamos entender dónde estamos perdiendo margen..."></textarea></div>
+      <button type="button" class="btn btn-l" id="fc-enviar">Enviar y hablar con FMC DataLab →</button>
+      <div id="fc-msg" role="status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const modal=document.getElementById('modal-contacto');
+function abrirModal(e){if(e)e.preventDefault();modal.classList.add('abierto');setTimeout(()=>document.getElementById('fc-nombre').focus(),50)}
+function cerrarModal(){modal.classList.remove('abierto')}
+document.querySelectorAll('[data-abrir-modal]').forEach(b=>b.addEventListener('click',abrirModal));
+document.getElementById('modal-cerrar').addEventListener('click',cerrarModal);
+modal.addEventListener('click',e=>{if(e.target===modal)cerrarModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarModal()});
+
+document.getElementById('fc-enviar').addEventListener('click',async()=>{
+  const v=id=>document.getElementById(id).value.trim();
+  const nombre=v('fc-nombre'),cargo=v('fc-cargo'),empresa=v('fc-empresa'),email=v('fc-email'),tel=v('fc-tel'),mensaje=v('fc-mensaje');
+  const msg=document.getElementById('fc-msg');
+  msg.style.display='block';
+  if(!nombre||!cargo||!empresa||!email){msg.style.color='#C8361F';msg.textContent='Por favor complete los campos obligatorios (*)';return}
+  msg.style.color='#1E4A8A';msg.textContent='Enviando...';
+  const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWliZHNpbW1wd2x5ZXBiZWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDI5OTEsImV4cCI6MjA5MTkxODk5MX0.t8ZIzJ5flkyzfbj3RSTTMPq_gB0VaDX59iaGKDdsR8o';
+  try{
+    const res=await fetch('https://ilyibdsimmpwlyepbekg.supabase.co/rest/v1/contactos',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({nombre,cargo,empresa,email,telefono:tel,sector:'',mensaje,producto:'FMC DataLab'})
+    });
+    if(!res.ok)throw new Error('Error '+res.status);
+    msg.style.color='#0f7a3e';msg.textContent='✓ Información recibida. Lo contactamos en menos de 24 horas.';
+    ['fc-nombre','fc-cargo','fc-empresa','fc-email','fc-tel','fc-mensaje'].forEach(id=>document.getElementById(id).value='');
+  }catch(e){
+    msg.style.color='#C8361F';msg.textContent='Error al enviar. Escríbanos a consultorceo@fmcdatalab.com';
+  }
+});
+</script>
 </body>
 </html>
