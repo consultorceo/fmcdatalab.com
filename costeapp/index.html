@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CosteApp — Tu carta costeada, con alertas y precios claros</title>
+<meta name="description" content="CosteApp calcula el costo real de cada plato y cada bebida, te avisa cuando un proveedor sube un precio y te dice cuánto cobrar para no perder margen. Piloto de 30 días con tu carta. Una herramienta de FMC DataLab.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23d9a441'/%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%23171310' stroke-width='1.5'/%3E%3Cpath d='M12 9v6M10.5 9v4.5a1.5 1.5 0 0 0 3 0V9M12 15v8M20 9c-1.6 0-2.5 2.2-2.5 4.5S18.5 16 20 16v7' fill='none' stroke='%23171310' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#171310;
+  --surface:#221c16;
+  --surface-2:#2a2219;
+  --surface-3:#332b21;
+  --border:#3c3226;
+  --text:#f4ece0;
+  --text-soft:#b7a891;
+  --text-dim:#8a7c68;
+  --accent:#d9a441;
+  --accent-ink:#171310;
+  --accent-soft:#3a2f1c;
+  --good:#8bb374;
+  --good-soft:#2c3623;
+  --danger:#e0684f;
+  --papel:#f4ece0;
+  --tinta:#2a2219;
+  --tinta-2:#6b5d4b;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em;line-height:1.05;font-variation-settings:"opsz" 144}
+.num{font-variant-numeric:tabular-nums}
+section{scroll-margin-top:72px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(23,19,16,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav .wrap{height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.logo svg{width:36px;height:36px;flex-shrink:0}
+.logo-txt{font-family:var(--display);font-style:italic;font-weight:700;font-size:26px;line-height:1}
+.logo-txt span{color:var(--accent)}
+.logo-de{font-size:12px;color:var(--text-dim);display:block;margin-top:3px;font-family:var(--body);font-style:normal;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;color:var(--text-soft)}
+.nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-weight:600;font-size:16px;border-radius:999px;padding:14px 26px;cursor:pointer;text-decoration:none;border:1.5px solid transparent;transition:background .2s,border-color .2s,transform .15s}
+.btn-oro{background:var(--accent);color:var(--accent-ink)}
+.btn-oro:hover{background:#e6b552;transform:translateY(-1px)}
+.btn-linea{border-color:var(--border);color:var(--text)}
+.btn-linea:hover{border-color:var(--text-soft)}
+.nav .btn{padding:9px 18px;font-size:14px}
+
+/* HERO */
+.hero{padding:72px 0 92px;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 420px at 82% 32%,rgba(217,164,65,.09),transparent 70%);pointer-events:none}
+.hero .wrap{display:grid;grid-template-columns:1fr 470px;gap:64px;align-items:center;position:relative}
+.hero h1{font-size:clamp(44px,6vw,78px);margin-bottom:24px}
+.hero h1 i{font-style:italic;color:var(--accent);font-weight:500}
+.hero-lead{font-size:19px;color:var(--text-soft);max-width:44ch;margin-bottom:32px}
+.hero-acciones{display:flex;gap:12px;flex-wrap:wrap}
+.para-quien{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px}
+.para-quien span{font-size:14px;color:var(--text-soft);border:1px solid var(--border);border-radius:99px;padding:5px 13px}
+
+/* FICHA: la copa de vino del ejemplo */
+.ficha{background:var(--papel);color:var(--tinta);border-radius:18px;padding:28px 28px 22px;box-shadow:0 30px 60px -24px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);transform:rotate(1.2deg);position:relative}
+.ficha::before{content:'';position:absolute;top:-10px;left:50%;width:84px;height:22px;transform:translateX(-50%) rotate(-2deg);background:rgba(217,164,65,.55);border-radius:2px}
+.ficha-cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:1.5px dashed #cdbfa9}
+.ficha-cab h2{font-size:26px;line-height:1.1}
+.ficha-porcion{font-size:13px;color:var(--tinta-2);white-space:nowrap}
+.alerta{display:flex;gap:10px;align-items:flex-start;background:#fbe3d6;border:1px solid #e7b39c;color:#7a2f17;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.45;margin-top:14px;transition:opacity .25s}
+.alerta.oculta{opacity:0;height:0;padding:0;margin:0;border:0;overflow:hidden}
+.alerta b{font-weight:700}
+.linea{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px solid #e3d7c4;font-size:15px}
+.linea small{display:block;color:var(--tinta-2);font-size:12px}
+.linea b{font-family:var(--display);font-size:21px;font-weight:600}
+.control{margin:14px 0 2px}
+.control-top{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px}
+.control-top output{font-family:var(--display);font-size:17px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:#d8cab3;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--tinta);border:3px solid var(--accent);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--tinta);border:3px solid var(--accent);cursor:pointer}
+input[type=range]:focus-visible{outline:2px solid var(--tinta);outline-offset:6px}
+.resultado{margin-top:16px;background:var(--tinta);color:var(--papel);border-radius:12px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.res span{display:block;font-size:12px;color:#c9b99f;line-height:1.3}
+.res b{font-family:var(--display);font-size:24px;font-weight:600;display:block;margin-top:4px}
+.res b.malo{color:#f08b72}.res b.bueno{color:#a9cf92}
+.res-sug{grid-column:1 / -1;border-top:1px solid #4a3d2c;padding-top:12px;font-size:14px;color:#e4d6c0}
+.res-sug b{display:inline;font-size:18px;color:var(--accent)}
+.ficha-pie{font-size:12px;color:var(--tinta-2);margin-top:12px}
+
+/* SECCIONES */
+.sec{padding:100px 0;border-top:1px solid var(--border)}
+.sec-titulo{font-size:clamp(36px,5vw,58px);max-width:18ch}
+.sec-lead{font-size:18px;color:var(--text-soft);max-width:56ch;margin-top:18px}
+
+
+/* los 7 pasos del ejemplo */
+.pasos{margin-top:52px;list-style:none;position:relative}
+.pasos::before{content:'';position:absolute;left:19px;top:12px;bottom:12px;width:2px;background:var(--border)}
+.paso{display:grid;grid-template-columns:40px 1fr minmax(0,320px);gap:24px;padding:22px 0;align-items:start;position:relative}
+.paso + .paso{border-top:1px solid rgba(60,50,38,.55)}
+.paso-n{width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent);border:1.5px solid #5a4826;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:17px;position:relative;z-index:1}
+.paso h3{font-family:var(--body);font-size:19px;font-weight:600;line-height:1.35;margin-bottom:4px}
+.paso p{font-size:15px;color:var(--text-soft)}
+.paso-dato{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px}
+.paso-dato span{display:block;font-size:12.5px;color:var(--text-dim)}
+.paso-dato b{font-family:var(--display);font-weight:600;font-size:22px;line-height:1.2}
+.paso-dato b.oro{color:var(--accent)}.paso-dato b.verde{color:var(--good)}.paso-dato b.rojo{color:var(--danger)}
+
+/* tres verdades */
+.verdades{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px;border-top:1px solid var(--border)}
+.verdad{padding:30px 32px 10px 0}
+.verdad + .verdad{padding-left:32px;border-left:1px solid var(--border)}
+.verdad-cifra{font-family:var(--display);font-size:44px;font-weight:600;color:var(--accent);line-height:1;margin-bottom:14px}
+.verdad h3{font-family:var(--body);font-size:19px;font-weight:600;margin-bottom:8px;line-height:1.35}
+.verdad p{font-size:15px;color:var(--text-soft)}
+
+/* matriz del menú */
+.menu{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+.matriz-wrap{position:relative;padding:0 0 34px 34px;max-width:520px;width:100%;justify-self:end}
+.matriz{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;aspect-ratio:1/1}
+.cuad{border-radius:14px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--border)}
+.cuad-l{font-family:var(--display);font-size:54px;font-weight:600;line-height:.9}
+.cuad p{font-size:14px;line-height:1.45}
+.cuad.a{background:var(--good-soft);border-color:#3f5032}.cuad.a .cuad-l{color:var(--good)}
+.cuad.b{background:var(--accent-soft);border-color:#5a4826}.cuad.b .cuad-l{color:var(--accent)}
+.cuad.c{background:#1e2635;border-color:#33405a}.cuad.c .cuad-l{color:#9db4e0}
+.cuad.d{background:#2e1c17;border-color:#4d2a21}.cuad.d .cuad-l{color:var(--danger)}
+.eje{position:absolute;font-size:13px;color:var(--text-dim);font-weight:500;white-space:nowrap}
+.eje-y{left:0;top:50%;transform:translate(-50%,-50%) rotate(-90deg) translateY(-8px)}
+.eje-x{bottom:0;left:calc(34px + 50%);transform:translateX(-50%)}
+
+/* cuenta del mes */
+.cuenta{margin-top:56px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:20px;align-items:center}
+.cuenta-item span{display:block;font-size:14px;color:var(--text-soft);margin-bottom:6px}
+.cuenta-item b{font-family:var(--display);font-size:clamp(28px,3.4vw,42px);font-weight:600;line-height:1}
+.cuenta-op{font-family:var(--display);font-size:40px;color:var(--text-dim)}
+.cuenta-item.res b{color:var(--good)}
+.cuenta-nota{font-size:14px;color:var(--text-dim);margin-top:16px;max-width:70ch}
+
+/* equipo */
+.equipo{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;margin-top:48px}
+.equipo-item{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--border)}
+.equipo-ico{width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center}
+.equipo-ico svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.equipo-item h3{font-family:var(--body);font-size:18px;font-weight:600;margin-bottom:4px;line-height:1.35}
+.equipo-item p{font-size:15px;color:var(--text-soft)}
+
+/* CTA */
+.cta{padding:110px 0;border-top:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;left:50%;bottom:-220px;width:900px;height:440px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(217,164,65,.13),transparent 70%);pointer-events:none}
+.cta .wrap{position:relative;max-width:780px}
+.cta svg{width:72px;height:72px;margin-bottom:22px}
+.cta h2{font-size:clamp(40px,6vw,68px);margin-bottom:22px}
+.cta h2 i{color:var(--accent);font-weight:500}
+.cta p{font-size:18px;color:var(--text-soft);margin:0 auto 34px;max-width:54ch}
+
+footer{border-top:1px solid var(--border);padding:34px 0 48px;font-size:14px;color:var(--text-dim)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer nav{display:flex;gap:20px;flex-wrap:wrap}
+footer a{text-decoration:none}
+footer a:hover{color:var(--text)}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:999;background:rgba(10,8,6,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px}
+.modal.abierto{display:flex}
+.modal-caja{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;padding:36px 34px;position:relative;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
+.modal-cerrar{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--text-soft);font-size:20px;cursor:pointer;line-height:1}
+.modal h3{font-size:32px;margin-bottom:8px;padding-right:40px}
+.modal-sub{font-size:15px;color:var(--text-soft);margin-bottom:22px}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.campo{display:flex;flex-direction:column;gap:6px}
+.campo.ancho{grid-column:1 / -1}
+.campo label{font-size:14px;font-weight:500;color:var(--text-soft)}
+.campo input,.campo textarea{font-family:var(--body);font-size:15px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:11px;padding:12px 13px;outline:none;width:100%}
+.campo input:focus,.campo textarea:focus{border-color:var(--accent)}
+.campo textarea{resize:vertical;min-height:84px}
+.modal .btn{width:100%;margin-top:18px}
+#fc-msg{font-size:14px;margin-top:12px;display:none;font-weight:500}
+
+@media (max-width:980px){
+  .hero .wrap{grid-template-columns:1fr;gap:48px}
+  .ficha{transform:none;max-width:520px}
+  .paso{grid-template-columns:40px 1fr}
+  .paso-dato{grid-column:2}
+  .verdades{grid-template-columns:1fr}
+  .verdad + .verdad{padding-left:0;border-left:0;border-top:1px solid var(--border)}
+  .verdad{padding-right:0}
+  .menu{grid-template-columns:1fr;gap:40px}
+  .matriz-wrap{justify-self:start}
+  .cuenta{grid-template-columns:1fr;gap:10px}
+  .cuenta-op{font-size:28px;line-height:1}
+  .equipo{grid-template-columns:1fr}
+  .nav-links a:not(.btn){display:none}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .ficha{padding:22px 18px 18px}
+  .campos{grid-template-columns:1fr}
+  .cuad{padding:14px}
+  .cuad-l{font-size:40px}
+  .cuad p{font-size:12.5px}
+  .logo-de{display:none}
+  .paso{gap:14px}
+  .nav .btn{padding:8px 13px;font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sello" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="31" fill="#d9a441"/>
+    <circle cx="32" cy="32" r="25" fill="none" stroke="#171310" stroke-width="2"/>
+    <path d="M25 18v12M22 18v9a3 3 0 0 0 6 0v-9M25 30v16" fill="none" stroke="#171310" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M40 18c-3.2 0-5 4.2-5 8.6 0 3 1.6 4.4 5 4.4v15" fill="none" stroke="#171310" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/costeapp/" aria-label="CosteApp, inicio">
+      <svg aria-hidden="true"><use href="#sello"/></svg>
+      <span><span class="logo-txt">CosteA<span>pp</span></span><span class="logo-de">una herramienta de FMC DataLab</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="/">FMC DataLab</a>
+      <a href="#pasos">Cómo funciona</a>
+      <button class="btn btn-oro" data-abrir-modal>Quiero el piloto</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Tu carta costeada, con alertas y <i>precios claros.</i></h1>
+      <p class="hero-lead">CosteApp calcula el costo real de cada plato y cada bebida con la merma de los insumos. Te avisa cuando un proveedor sube un precio y te dice cuánto cobrar para no perder margen.</p>
+      <div class="hero-acciones">
+        <button class="btn btn-oro" data-abrir-modal>Empezar mi piloto de 30 días</button>
+        <a class="btn btn-linea" href="#pasos">Ver cómo funciona</a>
+      </div>
+      <div class="para-quien" aria-label="Para quién es">
+        <span>Restaurantes</span><span>Cafés</span><span>Panaderías y repostería</span><span>Pizzerías</span><span>Bares</span>
+      </div>
+    </div>
+
+    <div class="ficha" aria-labelledby="ficha-titulo">
+      <div class="ficha-cab">
+        <h2 id="ficha-titulo">Copa de vino tinto</h2>
+        <span class="ficha-porcion">150 ml · 150 copas al mes</span>
+      </div>
+      <div class="alerta" id="alerta" role="status">
+        <span aria-hidden="true">⚠</span>
+        <span id="alerta-txt"></span>
+      </div>
+      <div class="control">
+        <div class="control-top"><label for="r-botella">El proveedor te cobra la botella a</label><output id="o-botella" for="r-botella" class="num"></output></div>
+        <input type="range" id="r-botella" min="34000" max="52000" step="500" value="44000">
+      </div>
+      <div class="linea"><span>Costo de la copa<small>la botella rinde 5 copas</small></span><b class="num" id="c-copa"></b></div>
+      <div class="control">
+        <div class="control-top"><label for="r-precio">Tu copa en la carta</label><output id="o-precio" for="r-precio" class="num"></output></div>
+        <input type="range" id="r-precio" min="15000" max="30000" step="100" value="18000">
+      </div>
+      <div class="resultado" aria-live="polite">
+        <div class="res"><span>Margen de cada copa</span><b class="num" id="p-margen"></b></div>
+        <div class="res"><span>Te deja al mes</span><b class="num" id="p-mes"></b></div>
+        <div class="res-sug">Para volver al 65 %, cóbrala a <b class="num" id="p-sug"></b> (<span id="p-sug-imp"></span> con impuesto al consumo).</div>
+      </div>
+      <p class="ficha-pie">Ejemplo: el proveedor sube la botella de $38.000 a $44.000. Mueve los dos valores; son los mismos cálculos de CosteApp.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec" id="pasos">
+  <div class="wrap">
+    <h2 class="sec-titulo">Así funciona, paso a paso, con una carta de ejemplo.</h2>
+    <p class="sec-lead">El mismo orden en que trabaja tu cocina. Precios en pesos y en las unidades en que compras: kilo, libra, litro, galón o unidad.</p>
+    <ol class="pasos">
+      <li class="paso">
+        <span class="paso-n">1</span>
+        <div><h3>Creas un insumo</h3><p>Champiñones, con la presentación en que los compras, el precio y la merma. La app calcula el costo real por gramo.</p></div>
+        <div class="paso-dato"><span>$18.000 el kilo, 8 % de merma</span><b class="num oro">$19,57 por gramo</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">2</span>
+        <div><h3>Armas una sub-receta</h3><p>Salsa napolitana por lote, con insumos que ya existen: tomate, cebolla y ajo. Sirve de ingrediente en cualquier plato.</p></div>
+        <div class="paso-dato"><span>Lote de 700 g</span><b class="num oro">$4,88 por gramo</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">3</span>
+        <div><h3>Sumas un costo fijo</h3><p>El seguro del local entra al total de gastos fijos del mes, junto al arriendo, los servicios y la nómina.</p></div>
+        <div class="paso-dato"><span>Seguro del local</span><b class="num">$300.000 al mes</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">4</span>
+        <div><h3>Costeas un plato</h3><p>Pizza de champiñones con masa, salsa napolitana, mozzarella y champiñones. La app calcula costo, precio sugerido y margen.</p></div>
+        <div class="paso-dato"><span>Costo $5.948 · sugerido $13.217</span><b class="num verde">79 % de margen</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">5</span>
+        <div><h3>Te llega una alerta</h3><p>El proveedor sube la botella de vino tinto. La app marca el insumo y la copa pierde margen sin que nadie haya tocado la carta.</p></div>
+        <div class="paso-dato"><span>Botella de $38.000 a $44.000</span><b class="num rojo">⚠ La copa cae a 51 %</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">6</span>
+        <div><h3>Ajustas el precio</h3><p>Con la copa a $25.100, el margen vuelve a donde estaba y la utilidad del mes sube.</p></div>
+        <div class="paso-dato"><span>Margen de nuevo en 65 %</span><b class="num verde">+$1.065.000 al mes</b></div>
+      </li>
+      <li class="paso">
+        <span class="paso-n">7</span>
+        <div><h3>Ves el mes completo</h3><p>La rentabilidad de toda la carta contra los gastos fijos, y cada producto clasificado A, B, C o D.</p></div>
+        <div class="paso-dato"><span>Utilidad operativa estimada</span><b class="num verde">$39,1 millones al mes</b></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="kilo">
+  <div class="wrap">
+    <h2 class="sec-titulo">El precio del kilo no es el costo del plato.</h2>
+    <p class="sec-lead">La diferencia está en tres detalles que casi nadie anota. Ahí se va el margen sin que se note en la caja.</p>
+    <div class="verdades">
+      <div class="verdad">
+        <div class="verdad-cifra num">$19,57</div>
+        <h3>Lo que de verdad cuesta cada gramo de champiñón</h3>
+        <p>Pagas $18 por gramo, pero el 8 % se pierde al limpiarlos. CosteApp calcula con lo que llega al plato, no con lo que pesa la bolsa.</p>
+      </div>
+      <div class="verdad">
+        <div class="verdad-cifra">1 cambio</div>
+        <h3>Y se actualizan todas las recetas</h3>
+        <p>Si sube el tomate, el nuevo costo de la salsa llega solo a cada pizza y cada pasta que la usa.</p>
+      </div>
+      <div class="verdad">
+        <div class="verdad-cifra">⚠</div>
+        <h3>Avisa cuando un insumo se sale de precio</h3>
+        <p>Si lo que pagas hoy se aleja del promedio reciente, aparece la alerta. Es más sensible con los insumos que más pesan en tu costo total.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="menu">
+  <div class="wrap menu">
+    <div>
+      <h2 class="sec-titulo">Tu carta, en cuatro grupos.</h2>
+      <p class="sec-lead">Con las ventas estimadas de cada producto, CosteApp cruza lo que se vende con lo que deja y te dice dónde actuar primero.</p>
+      <p class="sec-lead" style="font-size:16px;color:var(--text-dim)">En la carta de ejemplo, la pizza de champiñones queda en C: deja 79 % de margen, pero se vende menos que el promedio de la carta.</p>
+    </div>
+    <div class="matriz-wrap">
+      <span class="eje eje-y">Se vende más ↑</span>
+      <div class="matriz">
+        <div class="cuad b"><span class="cuad-l">B</span><p>Vende mucho y deja poco. Ahí está la oportunidad.</p></div>
+        <div class="cuad a"><span class="cuad-l">A</span><p>Vende y deja mucho. No lo toques.</p></div>
+        <div class="cuad d"><span class="cuad-l">D</span><p>Vende poco y deja poco.</p></div>
+        <div class="cuad c"><span class="cuad-l">C</span><p>Deja mucho margen, pero vende poco. Hay que promocionarlo.</p></div>
+      </div>
+      <span class="eje eje-x">Deja más margen →</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="mes">
+  <div class="wrap">
+    <h2 class="sec-titulo">Y al final del mes, la cuenta que importa.</h2>
+    <p class="sec-lead">Los gastos fijos no se esconden dentro del precio de cada plato: se comparan contra lo que deja toda la carta.</p>
+    <div class="cuenta">
+      <div class="cuenta-item"><span>Margen de contribución de la carta</span><b class="num">$56.931.671</b></div>
+      <div class="cuenta-op" aria-hidden="true">−</div>
+      <div class="cuenta-item"><span>Gastos fijos del mes</span><b class="num">$17.800.000</b></div>
+      <div class="cuenta-op" aria-hidden="true">=</div>
+      <div class="cuenta-item res"><span>Utilidad operativa estimada</span><b class="num">$39.131.671</b></div>
+    </div>
+    <p class="cuenta-nota">Cifras de una carta de ejemplo: sopas, ensaladas, carne asada, pizzas, sánduches, postres, pastas, cafés, jugos y bar, contra arriendo, servicios, nómina, mantenimiento, seguro y otros gastos fijos.</p>
+  </div>
+</section>
+
+<section class="sec" id="equipo">
+  <div class="wrap">
+    <h2 class="sec-titulo">Hecha para el equipo, no solo para el dueño.</h2>
+    <div class="equipo">
+      <div class="equipo-item">
+        <span class="equipo-ico"><svg viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.8A6 6 0 0 0 4.5 12a3.5 3.5 0 0 0 .5 7z"/></svg></span>
+        <div><h3>En la nube, siempre al día</h3><p>Lo que cambia la cocina en el celular lo ve la administración en el computador, al instante.</p></div>
+      </div>
+      <div class="equipo-item">
+        <span class="equipo-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></span>
+        <div><h3>Cada quien con su rol</h3><p>El administrador edita todo. El operador carga insumos y recetas. Cada cuenta queda vinculada a su restaurante.</p></div>
+      </div>
+      <div class="equipo-item">
+        <span class="equipo-ico"><svg viewBox="0 0 24 24"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-7h6v7"/></svg></span>
+        <div><h3>Varias sedes, un mismo negocio</h3><p>Las sedes quedan agrupadas bajo el restaurante principal, cada una con sus propios datos.</p></div>
+      </div>
+      <div class="equipo-item">
+        <span class="equipo-ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg></span>
+        <div><h3>Se instala como una app</h3><p>Desde el navegador del celular se agrega a la pantalla de inicio. Y tus datos se pueden exportar cuando quieras.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <svg aria-hidden="true"><use href="#sello"/></svg>
+    <h2>Un piloto de 30 días <i>con tu carta.</i></h2>
+    <p>Cargamos contigo tus insumos y tus platos, y en un mes sabes cuáles dejan plata, cuáles se la comen y cuánto cobrar por cada uno.</p>
+    <button class="btn btn-oro" data-abrir-modal>Empezar mi piloto de 30 días</button>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>CosteApp es una herramienta de <a href="/"><strong>FMC DataLab</strong></a>. © 2026</span>
+    <nav aria-label="Otras herramientas">
+      <a href="/ebit-q/">EBIT-Q</a>
+      <a href="/jornada-42/">Jornada 42</a>
+      <a href="mailto:contacto@fmcdatalab.com">contacto@fmcdatalab.com</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="modal" id="modal-contacto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+  <div class="modal-caja">
+    <button class="modal-cerrar" data-cerrar-modal aria-label="Cerrar">×</button>
+    <h3 id="modal-titulo">Tu piloto de 30 días</h3>
+    <p class="modal-sub">Cuéntanos de tu negocio. Te escribimos en menos de 24 horas.</p>
+    <div class="campos">
+      <div class="campo"><label for="fc-nombre">Nombre completo *</label><input id="fc-nombre" type="text" autocomplete="name"></div>
+      <div class="campo"><label for="fc-cargo">Cargo *</label><input id="fc-cargo" type="text" placeholder="Dueño, chef, administrador…"></div>
+      <div class="campo ancho"><label for="fc-empresa">Nombre del negocio *</label><input id="fc-empresa" type="text" autocomplete="organization"></div>
+      <div class="campo"><label for="fc-email">Correo *</label><input id="fc-email" type="email" autocomplete="email"></div>
+      <div class="campo"><label for="fc-tel">WhatsApp</label><input id="fc-tel" type="tel" autocomplete="tel" placeholder="+57 300 000 0000"></div>
+      <div class="campo ancho"><label for="fc-mensaje">¿Cuántos productos tiene tu carta y cuántas sedes?</label><textarea id="fc-mensaje" placeholder="Ej.: pizzería, 40 productos, una sede."></textarea></div>
+    </div>
+    <button class="btn btn-oro" id="fc-enviar">Pedir mi piloto</button>
+    <p id="fc-msg" role="status"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ── Ficha de la copa: mismos cálculos de CosteApp ──
+  // costo copa = precio botella / 750 ml × 150 ml
+  // margen = (precio en carta − costo) / precio en carta
+  // precio sugerido = costo / (1 − margen deseado); con impuesto × 1,08
+  var PROMEDIO = 38000, ML_BOTELLA = 750, ML_COPA = 150, COPAS_MES = 150, META = 65, IMPUESTO = 8;
+  var fmt = function(v){ return '$' + Math.round(v).toLocaleString('es-CO'); };
+  var rB = document.getElementById('r-botella'), rP = document.getElementById('r-precio');
+  function calcular(){
+    var botella = +rB.value, precio = +rP.value;
+    var costo = botella / ML_BOTELLA * ML_COPA;
+    var margen = (precio - costo) / precio * 100;
+    var sug = costo / (1 - META/100);
+    document.getElementById('o-botella').textContent = fmt(botella);
+    document.getElementById('o-precio').textContent = fmt(precio);
+    document.getElementById('c-copa').textContent = fmt(costo);
+    var pm = document.getElementById('p-margen');
+    pm.textContent = Math.round(margen) + ' %';
+    pm.className = 'num ' + (margen < META - 0.5 ? 'malo' : 'bueno');
+    document.getElementById('p-mes').textContent = fmt((precio - costo) * COPAS_MES);
+    document.getElementById('p-sug').textContent = fmt(sug);
+    document.getElementById('p-sug-imp').textContent = fmt(sug * (1 + IMPUESTO/100));
+    var dev = (botella - PROMEDIO) / PROMEDIO * 100;
+    var al = document.getElementById('alerta');
+    if (dev >= 1) {
+      al.classList.remove('oculta');
+      document.getElementById('alerta-txt').innerHTML = 'La botella subió <b>' + Math.round(dev) + ' %</b> frente a su promedio reciente de ' + fmt(PROMEDIO) + '.';
+    } else { al.classList.add('oculta'); }
+  }
+  rB.addEventListener('input', calcular);
+  rP.addEventListener('input', calcular);
+  calcular();
+
+  // ── Modal ──
+  var modal = document.getElementById('modal-contacto');
+  document.querySelectorAll('[data-abrir-modal]').forEach(function(b){
+    b.addEventListener('click', function(){ modal.classList.add('abierto'); document.getElementById('fc-nombre').focus(); });
+  });
+  function cerrar(){ modal.classList.remove('abierto'); }
+  document.querySelector('[data-cerrar-modal]').addEventListener('click', cerrar);
+  modal.addEventListener('click', function(ev){ if (ev.target === modal) cerrar(); });
+  document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') cerrar(); });
+
+  // ── Envío a Supabase ──
+  document.getElementById('fc-enviar').addEventListener('click', async function(){
+    var v = function(id){ return document.getElementById(id).value.trim(); };
+    var nombre=v('fc-nombre'), cargo=v('fc-cargo'), empresa=v('fc-empresa'), email=v('fc-email'), tel=v('fc-tel'), mensaje=v('fc-mensaje');
+    var msg = document.getElementById('fc-msg');
+    msg.style.display='block';
+    if (!nombre || !cargo || !empresa || !email) { msg.style.color='#e0684f'; msg.textContent='Completa nombre, cargo, negocio y correo.'; return; }
+    msg.style.color='#b7a891'; msg.textContent='Enviando…';
+    try {
+      var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWliZHNpbW1wd2x5ZXBiZWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDI5OTEsImV4cCI6MjA5MTkxODk5MX0.t8ZIzJ5flkyzfbj3RSTTMPq_gB0VaDX59iaGKDdsR8o';
+      var res = await fetch('https://ilyibdsimmpwlyepbekg.supabase.co/rest/v1/contactos', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY,'Prefer':'return=minimal'},
+        body: JSON.stringify({nombre:nombre, cargo:cargo, empresa:empresa, email:email, telefono:tel, sector:'Restaurantes', mensaje:mensaje, producto:'CosteApp'})
+      });
+      if (!res.ok) throw new Error(res.status);
+      msg.style.color='#8bb374'; msg.textContent='Listo. Te escribimos en menos de 24 horas.';
+      ['fc-nombre','fc-cargo','fc-empresa','fc-email','fc-tel','fc-mensaje'].forEach(function(id){ document.getElementById(id).value=''; });
+    } catch(err) {
+      msg.style.color='#e0684f'; msg.textContent='No se pudo enviar. Escríbenos a consultorceo@fmcdatalab.com';
+    }
+  });
+})();
+</script>
+</body>
+</html>
