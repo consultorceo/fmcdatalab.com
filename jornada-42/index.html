@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornada 42 — El mismo trabajo, cumpliendo la ley, por menos plata</title>
+<meta name="description" content="Jornada 42 calcula cuánto le cuesta su horario con la reforma laboral, detecta lo que no cumple la ley y propone un horario legal más eficiente. Una herramienta de FMC DataLab.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2315171A'/%3E%3Crect x='4' y='20' width='24' height='6' fill='%23FFD23F'/%3E%3Ctext x='16' y='17' font-family='Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle'%3E42%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --concreto:#E6E8E3;
+  --concreto-2:#DADDD6;
+  --papel:#F5F6F3;
+  --tinta:#15171A;
+  --tinta-2:#4A4F55;
+  --tinta-3:#767C83;
+  --linea:#C5CAC3;
+  --resaltador:#FFD23F;
+  --resaltador-2:#F2C21B;
+  --noche:#23205E;
+  --noche-2:#3A3690;
+  --salvia:#A9B8AE;
+  --alerta:#D63A2F;
+  --display:'Big Shoulders Display','Arial Narrow','Roboto Condensed',sans-serif;
+  --texto:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--texto);background:var(--concreto);color:var(--tinta);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--noche-2);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--display);font-weight:900;line-height:.92;letter-spacing:-.005em;text-transform:none}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:50;background:var(--concreto);border-bottom:2px solid var(--tinta)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:20px}
+.marca{display:flex;align-items:center;gap:12px;text-decoration:none}
+.marca-sello{width:38px;height:38px;background:var(--tinta);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:20px;position:relative;border-radius:3px}
+.marca-sello::after{content:'';position:absolute;left:5px;right:5px;bottom:5px;height:4px;background:var(--resaltador)}
+.marca-sello span{transform:translateY(-3px)}
+.marca-nombre{font-family:var(--display);font-weight:800;font-size:24px;line-height:1;white-space:nowrap}
+.marca-de{font-size:12px;color:var(--tinta-3);display:block;font-weight:500;margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;color:var(--tinta-2)}
+.nav-links a:hover{color:var(--tinta)}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--texto);font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;border:2px solid var(--tinta);border-radius:4px;padding:14px 24px;transition:transform .15s ease,box-shadow .15s ease}
+.btn-amarillo{background:var(--resaltador);color:var(--tinta);box-shadow:4px 4px 0 var(--tinta)}
+.btn-amarillo:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--tinta)}
+.btn-amarillo:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--tinta)}
+.btn-tinta{background:var(--tinta);color:#fff;box-shadow:4px 4px 0 var(--resaltador-2)}
+.btn-tinta:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--resaltador-2)}
+.btn-linea{background:transparent;color:var(--tinta)}
+.btn-linea:hover{background:var(--papel)}
+.nav .btn{padding:9px 16px;font-size:14px;box-shadow:3px 3px 0 var(--tinta)}
+
+/* ── HERO ── */
+.hero{padding:64px 0 40px}
+.hero-top{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(56px,9vw,124px)}
+.hero h1 .linea-2{display:block;color:var(--noche)}
+.hero-lead{font-size:19px;color:var(--tinta-2);max-width:46ch}
+.hero-lead strong{color:var(--tinta);font-weight:600}
+.hero-acciones{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+
+/* ── TABLILLA ── */
+.tablilla{margin-top:56px;background:var(--papel);border:2px solid var(--tinta);border-radius:6px;box-shadow:8px 8px 0 var(--tinta);position:relative}
+.tablilla::before,.tablilla::after{content:'';position:absolute;top:-11px;width:22px;height:22px;border-radius:50%;background:var(--alerta);border:2px solid var(--tinta);box-shadow:inset -3px -3px 0 rgba(0,0,0,.25)}
+.tablilla::before{left:28px}.tablilla::after{right:28px}
+.tab-cabeza{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:28px 32px 6px;flex-wrap:wrap}
+.tab-titulo{font-family:var(--display);font-weight:800;font-size:30px;line-height:1}
+.tab-sub{font-size:14px;color:var(--tinta-3);margin-top:6px}
+.leyenda{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--tinta-2)}
+.leyenda span{display:inline-flex;align-items:center;gap:8px}
+.sw{width:18px;height:14px;border-radius:2px;border:1px solid rgba(21,23,26,.25);display:inline-block}
+.sw-ord{background:var(--salvia)}.sw-noc{background:var(--noche)}.sw-dom{background:var(--resaltador)}
+.sw-ext{background:repeating-linear-gradient(-45deg,var(--tinta) 0 2px,transparent 2px 5px),var(--salvia)}
+
+/* linea de tiempo de etapas */
+.etapas{display:grid;grid-template-columns:repeat(5,1fr);margin:22px 32px 8px;position:relative}
+.etapas::before{content:'';position:absolute;left:10%;right:10%;top:15px;height:3px;background:var(--linea)}
+.etapas-avance{position:absolute;left:10%;top:15px;height:3px;background:var(--tinta);transition:width .45s ease}
+.etapa{background:none;border:0;cursor:pointer;font-family:var(--texto);color:var(--tinta-3);display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 4px 6px;position:relative;z-index:1}
+.etapa-punto{width:32px;height:32px;border-radius:50%;background:var(--papel);border:3px solid var(--linea);transition:all .25s ease;display:grid;place-items:center}
+.etapa-punto::after{content:'';width:10px;height:10px;border-radius:50%;background:transparent;transition:background .25s}
+.etapa-fecha{font-weight:600;font-size:14px;line-height:1.25;text-align:center}
+.etapa.pasada .etapa-punto{border-color:var(--tinta);background:var(--tinta)}
+.etapa.activa .etapa-punto{border-color:var(--tinta);background:var(--resaltador);transform:scale(1.12)}
+.etapa.activa .etapa-punto::after{background:var(--tinta)}
+.etapa.activa .etapa-fecha,.etapa.pasada .etapa-fecha{color:var(--tinta)}
+.etapa:hover .etapa-punto{border-color:var(--tinta)}
+
+.tab-cuerpo{display:grid;grid-template-columns:1fr 290px;gap:28px;padding:18px 32px 32px}
+.grilla-wrap{min-width:0}
+.horas-eje{display:grid;grid-template-columns:44px repeat(24,1fr);font-size:11px;color:var(--tinta-3);margin-bottom:4px}
+.horas-eje span{text-align:left}
+.grilla{display:grid;grid-template-columns:44px repeat(24,1fr);gap:3px}
+.dia{font-weight:600;font-size:13px;color:var(--tinta-2);display:flex;align-items:center}
+.c{height:30px;border-radius:2px;background:rgba(21,23,26,.06);transition:background-color .35s ease}
+.c.ord{background-color:var(--salvia)}
+.c.noc{background-color:var(--noche)}
+.c.dom{background-color:var(--resaltador)}
+.c.ext{background-image:repeating-linear-gradient(-45deg,rgba(21,23,26,.9) 0 2px,transparent 2px 6px)}
+.c.noc.ext{background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,.75) 0 2px,transparent 2px 6px)}
+.c.nueva{animation:pulso .9s ease}
+@keyframes pulso{0%{outline:3px solid var(--alerta);outline-offset:0}100%{outline:3px solid transparent;outline-offset:4px}}
+.linea-noche{grid-column:2 / -1}
+.nota-ejemplo{font-size:13px;color:var(--tinta-3);margin-top:12px}
+
+.medidores{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--tinta);padding-left:24px}
+.medidor{padding:12px 0;border-bottom:1px solid var(--linea)}
+.medidor:last-of-type{border-bottom:0}
+.medidor-cifra{font-family:var(--display);font-weight:900;font-size:54px;line-height:.9;display:flex;align-items:baseline;gap:8px}
+.medidor-cifra small{font-size:22px;font-weight:800;color:var(--tinta-3)}
+.medidor-cifra .delta{font-size:20px;font-weight:800;color:var(--alerta)}
+.medidor-txt{font-size:14px;color:var(--tinta-2);margin-top:4px}
+.etapa-texto{margin-top:14px;background:var(--tinta);color:#fff;font-size:15px;padding:14px 16px;border-radius:4px;line-height:1.5}
+.etapa-texto b{color:var(--resaltador)}
+
+/* ── SECCIONES ── */
+section{scroll-margin-top:70px}
+.sec{padding:96px 0}
+.sec-titulo{font-size:clamp(42px,6vw,76px);max-width:16ch}
+.sec-lead{font-size:18px;color:var(--tinta-2);max-width:56ch;margin-top:18px}
+
+/* cómo funciona: turno de 4 bloques */
+.turno{display:grid;grid-template-columns:repeat(4,1fr);margin-top:56px;border:2px solid var(--tinta);border-radius:6px;overflow:hidden;background:var(--papel)}
+.bloque{padding:26px 24px 30px;border-right:2px solid var(--tinta);position:relative}
+.bloque:last-child{border-right:0}
+.bloque-n{font-family:var(--display);font-weight:900;font-size:64px;line-height:.8;color:var(--tinta)}
+.bloque:nth-child(2) .bloque-n{color:var(--noche)}
+.bloque:nth-child(4){background:var(--resaltador)}
+.bloque h3{font-family:var(--texto);font-weight:700;font-size:19px;line-height:1.25;margin:18px 0 8px}
+.bloque p{font-size:15px;color:var(--tinta-2)}
+.bloque:nth-child(4) p{color:var(--tinta)}
+
+/* qué revisa: filas con glifo de horario */
+.revisa{background:var(--papel);border-top:2px solid var(--tinta);border-bottom:2px solid var(--tinta)}
+.filas{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border-top:2px solid var(--tinta)}
+.fila{display:grid;grid-template-columns:92px 1fr;gap:20px;padding:26px 28px 26px 0;border-bottom:1px solid var(--linea)}
+.fila:nth-child(odd){border-right:1px solid var(--linea)}
+.fila:nth-child(even){padding-left:28px}
+.glifo{width:92px;height:40px;display:block}
+.fila h3{font-family:var(--texto);font-weight:700;font-size:19px;line-height:1.3;margin-bottom:4px}
+.fila p{font-size:15px;color:var(--tinta-2)}
+.sectores{margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 10px}
+.sectores-t{font-weight:600;font-size:15px;margin-right:6px}
+.sector{border:2px solid var(--tinta);border-radius:999px;padding:6px 16px;font-size:15px;font-weight:500;background:var(--concreto)}
+
+/* lo que se lleva */
+.lleva{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:48px;align-items:start}
+.lleva-lista{list-style:none;counter-reset:none}
+.lleva-lista li{padding:16px 0 16px 44px;border-bottom:1px solid var(--linea);position:relative;font-size:17px}
+.lleva-lista li::before{content:'';position:absolute;left:0;top:22px;width:26px;height:12px;background:var(--salvia);border:1.5px solid var(--tinta);border-radius:2px}
+.lleva-lista li:nth-child(2)::before{background:var(--noche)}
+.lleva-lista li:nth-child(3)::before{background:var(--alerta)}
+.lleva-lista li:nth-child(4)::before{background:var(--resaltador)}
+.lleva-lista li:nth-child(5)::before{background:var(--papel);border-style:dashed;border-color:var(--alerta)}
+.lleva-lista li:nth-child(6)::before{background:repeating-linear-gradient(-45deg,var(--tinta) 0 2px,transparent 2px 5px),var(--papel)}
+.lleva-lista strong{font-weight:700}
+.reglas{background:var(--tinta);color:#fff;border-radius:6px;padding:32px;box-shadow:8px 8px 0 var(--resaltador-2)}
+.reglas h3{font-size:40px;color:var(--resaltador);margin-bottom:18px}
+.reglas ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.reglas li{font-size:16px;line-height:1.55;padding-left:22px;position:relative;color:#E9EBE7}
+.reglas li::before{content:'';position:absolute;left:0;top:9px;width:10px;height:10px;background:var(--resaltador);border-radius:1px}
+.reglas .pie-legal{margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);font-size:13px;color:#A9AEB4}
+
+/* CTA */
+.cta{background:var(--resaltador);border-top:2px solid var(--tinta);border-bottom:2px solid var(--tinta);padding:96px 0}
+.cta .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:48px;align-items:end}
+.cta h2{font-size:clamp(46px,7vw,96px)}
+.cta p{font-size:18px;max-width:40ch;margin-bottom:22px}
+
+footer{padding:40px 0 56px;font-size:14px;color:var(--tinta-2)}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer nav{display:flex;gap:20px;flex-wrap:wrap}
+footer a{text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;z-index:999;background:rgba(21,23,26,.72);align-items:center;justify-content:center;padding:20px}
+.modal.abierto{display:flex}
+.modal-caja{background:var(--papel);border:2px solid var(--tinta);border-radius:6px;box-shadow:10px 10px 0 var(--resaltador-2);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;padding:36px 34px;position:relative}
+.modal-cerrar{position:absolute;top:12px;right:12px;width:38px;height:38px;border:2px solid var(--tinta);background:var(--concreto);border-radius:4px;font-size:20px;cursor:pointer;line-height:1}
+.modal h3{font-size:44px;margin-bottom:8px;padding-right:40px}
+.modal-sub{font-size:15px;color:var(--tinta-2);margin-bottom:22px}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.campo{display:flex;flex-direction:column;gap:6px}
+.campo.ancho{grid-column:1 / -1}
+.campo label{font-size:14px;font-weight:600}
+.campo input,.campo textarea{font-family:var(--texto);font-size:15px;color:var(--tinta);background:#fff;border:2px solid var(--linea);border-radius:4px;padding:11px 12px;outline:none;width:100%}
+.campo input:focus,.campo textarea:focus{border-color:var(--tinta)}
+.campo textarea{resize:vertical;min-height:84px}
+.modal .btn{width:100%;justify-content:center;margin-top:18px}
+#fc-msg{font-size:14px;margin-top:12px;display:none;font-weight:500}
+
+
+
+/* ── EL CASO ── */
+.caso{background:var(--papel);border-top:2px solid var(--tinta);border-bottom:2px solid var(--tinta)}
+.duelo{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.boleta{border:2px solid var(--tinta);border-radius:6px;padding:26px 28px;background:var(--concreto);position:relative}
+.boleta.prop{background:#fff}
+.boleta-t{font-weight:700;font-size:15px;color:var(--tinta-2);margin-bottom:30px}
+.boleta-cifra{font-family:var(--display);font-weight:900;font-size:clamp(46px,5.4vw,68px);line-height:.9}
+.boleta-sub{font-size:14px;color:var(--tinta-2);margin-top:6px}
+.boleta-fila{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--linea);margin-top:16px;padding-top:12px;font-size:15px}
+.boleta-fila b{font-weight:700}
+.sello{position:absolute;top:16px;right:20px;font-family:var(--display);font-weight:900;font-size:22px;line-height:1;padding:7px 12px;border:3px solid currentColor;border-radius:4px;transform:rotate(-6deg);background:rgba(255,255,255,.6)}
+.sello.mal{color:var(--alerta)}
+.sello.bien{color:#1f7a4d}
+.ahorro{margin-top:24px;background:var(--resaltador);border:2px solid var(--tinta);border-radius:6px;box-shadow:6px 6px 0 var(--tinta);padding:24px 28px;display:grid;grid-template-columns:auto auto 1fr;gap:12px 40px;align-items:end}
+.ahorro-l{font-weight:600;font-size:15px}
+.ahorro-c{font-family:var(--display);font-weight:900;font-size:clamp(40px,5vw,60px);line-height:.9}
+.ahorro p{font-size:15px;max-width:48ch;justify-self:end}
+.caso-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.panel{border:2px solid var(--tinta);border-radius:6px;background:#fff;padding:24px 26px}
+.panel h3{font-family:var(--texto);font-weight:700;font-size:18px;margin-bottom:16px;line-height:1.3}
+.barra-fila{display:grid;grid-template-columns:150px 1fr 110px;gap:12px;align-items:center;font-size:14px;margin-bottom:10px}
+.barra-fila .num{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.barra{height:14px;border-radius:2px;border:1.5px solid var(--tinta)}
+.barra.ext{background:repeating-linear-gradient(-45deg,var(--tinta) 0 2px,transparent 2px 5px),var(--salvia)}
+.barra.noc{background:var(--noche)}
+.barra.dom{background:var(--resaltador)}
+.panel-nota{font-size:13px;color:var(--tinta-3);margin-top:12px}
+.etapas-tabla{width:100%;border-collapse:collapse;font-size:15px}
+.etapas-tabla td{padding:10px 0;border-bottom:1px solid var(--linea);font-variant-numeric:tabular-nums}
+.etapas-tabla td small{display:block;font-size:12px;color:var(--tinta-3)}
+.etapas-tabla td:nth-child(2),.etapas-tabla td:nth-child(3){text-align:right}
+.etapas-tabla tr.hoy td{font-weight:700}
+.etapas-tabla .sube{color:var(--alerta);font-weight:600}
+.etapas-tabla .baja{color:#1f7a4d;font-weight:600}
+.cambios{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--tinta);border-radius:6px;background:#fff}
+.cambio{padding:22px 24px}
+.cambio + .cambio{border-left:2px solid var(--tinta)}
+.cambio-c{font-family:var(--display);font-weight:900;font-size:40px;line-height:.95;margin-bottom:8px}
+.cambio p{font-size:15px;color:var(--tinta-2)}
+@media (max-width:960px){
+  .duelo,.caso-grid{grid-template-columns:1fr}
+  .ahorro{grid-template-columns:1fr 1fr}
+  .ahorro p{grid-column:1 / -1;justify-self:start}
+  .cambios{grid-template-columns:1fr}
+  .cambio + .cambio{border-left:0;border-top:2px solid var(--tinta)}
+}
+@media (max-width:620px){
+  .barra-fila{grid-template-columns:1fr 92px;row-gap:4px}
+  .barra-fila .barra{grid-column:1 / -1;grid-row:2}
+  .boleta{padding:22px 18px}
+  .sello{font-size:17px;top:16px;right:14px}
+  .ahorro{grid-template-columns:1fr}
+}
+
+@media (max-width:960px){
+  .hero-top{grid-template-columns:1fr;gap:20px}
+  .tab-cuerpo{grid-template-columns:1fr}
+  .medidores{border-left:0;padding-left:0;border-top:2px solid var(--tinta);display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .medidor{border-bottom:0}
+  .etapa-texto{grid-column:1 / -1}
+  .turno{grid-template-columns:1fr 1fr}
+  .bloque:nth-child(2){border-right:0}
+  .bloque:nth-child(-n+2){border-bottom:2px solid var(--tinta)}
+  .filas{grid-template-columns:1fr}
+  .fila:nth-child(odd){border-right:0}
+  .fila:nth-child(even){padding-left:0}
+  .lleva{grid-template-columns:1fr}
+  .cta .wrap{grid-template-columns:1fr}
+  .nav-links a:not(.btn){display:none}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .tab-cabeza,.tab-cuerpo{padding-left:16px;padding-right:16px}
+  .etapas{margin-left:8px;margin-right:8px}
+  .etapa-fecha{font-size:11px}
+  .etapa-punto{width:26px;height:26px}
+  .etapas::before,.etapas-avance{top:12px}
+  .grilla,.horas-eje{grid-template-columns:30px repeat(24,1fr);gap:2px}
+  .c{height:22px}
+  .dia{font-size:11px}
+  .medidores{grid-template-columns:repeat(3,1fr);gap:10px}
+  .medidor-cifra{font-size:38px;flex-wrap:wrap;gap:2px 4px}
+  .medidor-cifra small{font-size:16px}
+  .medidor-cifra .delta{font-size:15px;width:100%}
+  .medidor-txt{font-size:12px;line-height:1.35}
+  .nav .btn{padding:7px 10px;font-size:13px;box-shadow:2px 2px 0 var(--tinta)}
+  .marca-sello{width:32px;height:32px;font-size:17px}
+  .marca-nombre{font-size:21px}
+  .turno{grid-template-columns:1fr}
+  .bloque{border-right:0;border-bottom:2px solid var(--tinta)}
+  .bloque:last-child{border-bottom:0}
+  .campos{grid-template-columns:1fr}
+  .tablilla{box-shadow:5px 5px 0 var(--tinta)}
+  .marca-de{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="/jornada-42/" class="marca" aria-label="Jornada 42, inicio">
+      <span class="marca-sello" aria-hidden="true"><span>42</span></span>
+      <span><span class="marca-nombre">Jornada 42</span><span class="marca-de">una herramienta de FMC DataLab</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="/">FMC DataLab</a>
+      <a href="#caso">El caso</a>
+      <a href="#como">Cómo funciona</a>
+      <button class="btn btn-amarillo" data-abrir-modal>Diagnosticar mi nómina</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <h1>Su horario no cambió.<span class="linea-2">Lo que cuesta, sí.</span></h1>
+      <div>
+        <p class="hero-lead">La reforma laboral movió la jornada, la hora en que empieza la noche y el recargo de cada domingo. Jornada 42 lee el horario que usted ya tiene (o lo arma con usted si no lo tiene escrito), <strong>calcula cuánto le cuesta hoy y en julio de 2027, señala lo que no cumple la ley</strong> y propone un horario legal que cubre la operación por menos.</p>
+        <div class="hero-acciones">
+          <button class="btn btn-amarillo" data-abrir-modal>Diagnosticar mi costo laboral</button>
+          <a class="btn btn-linea" href="#caso">Ver un caso real de ejemplo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LA TABLILLA: el mismo horario a lo largo de la reforma -->
+    <div class="tablilla" id="tablilla">
+      <div class="tab-cabeza">
+        <div>
+          <p class="tab-titulo">El mismo horario, etapa por etapa</p>
+          <p class="tab-sub">Una persona de cocina, turno de la tarde. Toque cada fecha.</p>
+        </div>
+        <div class="leyenda" aria-hidden="true">
+          <span><i class="sw sw-ord"></i>Ordinaria</span>
+          <span><i class="sw sw-noc"></i>Nocturna</span>
+          <span><i class="sw sw-dom"></i>Domingo</span>
+          <span><i class="sw sw-ext"></i>Hora extra</span>
+        </div>
+      </div>
+
+      <div class="etapas" role="group" aria-label="Etapas de la reforma laboral">
+        <div class="etapas-avance" id="avance"></div>
+      </div>
+
+      <div class="tab-cuerpo">
+        <div class="grilla-wrap">
+          <div class="horas-eje" aria-hidden="true" id="eje"></div>
+          <div class="grilla" id="grilla" role="img" aria-label=""></div>
+          <p class="nota-ejemplo">Ejemplo ilustrativo de lunes a domingo, de 12 a. m. a 11 p. m. Sin contar descansos dentro del turno. Su diagnóstico se hace con su horario real.</p>
+        </div>
+        <div class="medidores" aria-live="polite">
+          <div class="medidor">
+            <div class="medidor-cifra"><span id="m-noc">6</span><small>h</small><span class="delta" id="d-noc"></span></div>
+            <p class="medidor-txt">a la semana con recargo nocturno</p>
+          </div>
+          <div class="medidor">
+            <div class="medidor-cifra"><span id="m-dom">75</span><small>%</small><span class="delta" id="d-dom"></span></div>
+            <p class="medidor-txt">de recargo por cada hora del domingo</p>
+          </div>
+          <div class="medidor">
+            <div class="medidor-cifra"><span id="m-ext">3</span><small>h</small><span class="delta" id="d-ext"></span></div>
+            <p class="medidor-txt">que pasan de ordinarias a extra</p>
+          </div>
+          <p class="etapa-texto" id="etapa-texto"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec caso" id="caso">
+  <div class="wrap">
+    <h2 class="sec-titulo">Un caso de ejemplo: un gastro-bar con 12 personas.</h2>
+    <p class="sec-lead">Abre al almuerzo y en la noche, cierra después de la medianoche y no abre los lunes. Así quedó su horario frente a la propuesta de Jornada 42, para noviembre de 2026.</p>
+
+    <div class="duelo">
+      <div class="boleta">
+        <span class="sello mal">Con incumplimientos</span>
+        <p class="boleta-t">Horario actual</p>
+        <div class="boleta-cifra num">$44.348.181</div>
+        <p class="boleta-sub">costo laboral al mes</p>
+        <div class="boleta-fila"><span>Recargos y horas extra al mes</span><b class="num">$7.219.903</b></div>
+        <div class="boleta-fila"><span>Una mesera con 4 horas extra en un día y 13,4 en la semana</span><b>Supera el tope</b></div>
+      </div>
+      <div class="boleta prop">
+        <span class="sello bien">Cumple</span>
+        <p class="boleta-t">Propuesta Jornada 42</p>
+        <div class="boleta-cifra num">$42.111.056</div>
+        <p class="boleta-sub">costo laboral al mes</p>
+        <div class="boleta-fila"><span>Recargos y horas extra al mes</span><b class="num">$5.552.341</b></div>
+        <div class="boleta-fila"><span>Las mismas 12 personas, con los mismos salarios</span><b>Sí</b></div>
+      </div>
+    </div>
+
+    <div class="ahorro">
+      <div><p class="ahorro-l">Ahorro al mes</p><div class="ahorro-c num">$2.237.125</div></div>
+      <div><p class="ahorro-l">Al año</p><div class="ahorro-c num">$26.845.498</div></div>
+      <p>La propuesta automática nunca baja salarios ni quita personas: mueve turnos para que la operación quede cubierta con menos recargos.</p>
+    </div>
+
+    <div class="cambios">
+      <div class="cambio"><div class="cambio-c">22 h</div><p>de presencia por semana recortadas para quitar horas extra, sin dejar franjas sin cubrir.</p></div>
+      <div class="cambio"><div class="cambio-c">1 h antes</div><p>empiezan algunos turnos, para salir de la franja nocturna que arranca a las 7:00 p. m.</p></div>
+      <div class="cambio"><div class="cambio-c">Por persona</div><p>Qué cambia para cada quien, día por día. Con eso se conversa con el equipo antes de aplicarlo.</p></div>
+    </div>
+
+    <div class="caso-grid">
+      <div class="panel">
+        <h3>Dónde se va la plata en el horario actual</h3>
+        <div class="barra-fila"><span>Horas extra</span><span class="barra ext" style="width:71%"></span><span class="num">$1.919.125</span></div>
+        <div class="barra-fila"><span>Recargo nocturno</span><span class="barra noc" style="width:100%"></span><span class="num">$2.686.181</span></div>
+        <div class="barra-fila"><span>Domingos y festivos</span><span class="barra dom" style="width:97%"></span><span class="num">$2.614.598</span></div>
+        <p class="panel-nota">Lo que se paga cada mes por encima del salario, antes de prestaciones y aportes.</p>
+      </div>
+      <div class="panel">
+        <h3>El mismo horario, en cada etapa de la reforma</h3>
+        <table class="etapas-tabla">
+          <tr><td>Antes de la reforma<small>primer semestre de 2025</small></td><td>$41.133.136</td><td class="baja">−$3.215.045</td></tr>
+          <tr class="hoy"><td>Hoy<small>desde el 15 de julio de 2026</small></td><td>$44.348.181</td><td></td></tr>
+          <tr><td>Julio de 2027<small>domingo al 100 %</small></td><td>$44.781.808</td><td class="sube">+$433.627</td></tr>
+        </table>
+        <p class="panel-nota">Mismo horario y mismos salarios: solo cambian la jornada máxima, el recargo dominical y la hora en que empieza la noche.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="como">
+  <div class="wrap">
+    <h2 class="sec-titulo">De su horario de hoy a uno que cumple y cuesta menos.</h2>
+    <p class="sec-lead">No hay que cambiar de software ni volver a digitar la nómina. Funciona como un archivo en el navegador: sin internet, sin clave, y los datos quedan en el equipo.</p>
+    <div class="turno">
+      <div class="bloque">
+        <div class="bloque-n">1</div>
+        <h3>Su empresa, con la plantilla de su sector</h3>
+        <p>Nueve plantillas con puestos, turnos típicos, clase de riesgo ARL y riesgos legales por revisar. Todo se puede editar después.</p>
+      </div>
+      <div class="bloque">
+        <div class="bloque-n">2</div>
+        <h3>Cuándo abre y a cuánta gente necesita</h3>
+        <p>El horario de apertura día por día, incluso con cierre después de medianoche, y cuántas personas necesita cada puesto cada media hora.</p>
+      </div>
+      <div class="bloque">
+        <div class="bloque-n">3</div>
+        <h3>El horario real</h3>
+        <p>Desde el Excel o el control de acceso que ya tiene. Antes de guardar, le muestra cómo leyó cada turno y marca lo dudoso. Si no hay horario escrito, lo arma desde la demanda.</p>
+      </div>
+      <div class="bloque">
+        <div class="bloque-n">4</div>
+        <h3>Diagnóstico y propuesta</h3>
+        <p>Costo, alertas con su norma y un horario legal más barato con las mismas personas. Informe PDF y registro de horas extra, listos para entregar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec revisa" id="revisa">
+  <div class="wrap">
+    <h2 class="sec-titulo">Cada turno, contra cada regla.</h2>
+    <p class="sec-lead">Lo que hoy se calcula a mano en una hoja de cálculo, que es justo donde se cuelan los errores caros.</p>
+    <div class="filas">
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><rect x="1" y="12" width="90" height="16" rx="2" fill="#A9B8AE" stroke="#15171A" stroke-width="1.5"/><rect x="1" y="12" width="22" height="16" rx="2" fill="#23205E"/><rect x="72" y="12" width="19" height="16" rx="2" fill="#23205E"/><rect x="1" y="12" width="90" height="16" rx="2" fill="none" stroke="#15171A" stroke-width="1.5"/><line x1="72" y1="6" x2="72" y2="34" stroke="#D63A2F" stroke-width="2"/></svg>
+        <div><h3>Recargo nocturno</h3><p>Cuántas horas de cada turno caen después de las 7:00 p. m. y cuánto suman al mes.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><g stroke="#15171A" stroke-width="1.5"><rect x="1" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="14" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="27" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="40" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="53" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="66" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="79" y="12" width="12" height="16" rx="1.5" fill="#FFD23F"/></g></svg>
+        <div><h3>Domingos y festivos</h3><p>El recargo de cada domingo, los festivos del calendario oficial y el descanso compensatorio de quien trabaja 3 o más domingos al mes.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><defs><pattern id="rayas" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="2" height="5" fill="#15171A"/></pattern></defs><rect x="1" y="12" width="64" height="16" rx="2" fill="#A9B8AE" stroke="#15171A" stroke-width="1.5"/><rect x="65" y="12" width="26" height="16" rx="2" fill="url(#rayas)" stroke="#15171A" stroke-width="1.5"/></svg>
+        <div><h3>Horas extra y topes</h3><p>Lo que pasa de jornada ordinaria a extra con las 42 horas, y los cierres que se alargan: máximo 2 horas extra al día y 12 a la semana, anotadas por trabajador.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><rect x="1" y="7" width="52" height="12" rx="2" fill="#A9B8AE" stroke="#15171A" stroke-width="1.5"/><rect x="40" y="21" width="51" height="12" rx="2" fill="#A9B8AE" stroke="#15171A" stroke-width="1.5"/><rect x="40" y="7" width="13" height="26" fill="#D63A2F" opacity=".85"/></svg>
+        <div><h3>Turnos y descansos</h3><p>Turnos que se cruzan, dos turnos el mismo día, descansos por fuera del turno y semanas sin día libre.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><g stroke="#15171A" stroke-width="1.5"><rect x="1" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="14" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="27" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="40" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="53" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="66" y="12" width="11" height="16" rx="1.5" fill="none" stroke-dasharray="2 2"/><rect x="79" y="12" width="12" height="16" rx="1.5" fill="none" stroke-dasharray="2 2"/></g></svg>
+        <div><h3>Jornadas especiales</h3><p>Semana de 5 días, 36 horas en turnos sucesivos, turnos promediados y tiempo parcial, solo donde la ley los permite.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><rect x="1" y="12" width="40" height="16" fill="#A9B8AE"/><rect x="41" y="12" width="18" height="16" fill="#23205E"/><rect x="59" y="12" width="14" height="16" fill="#FFD23F"/><rect x="73" y="12" width="18" height="16" fill="#15171A"/><rect x="1" y="12" width="90" height="16" rx="2" fill="none" stroke="#15171A" stroke-width="1.5"/></svg>
+        <div><h3>El costo completo</h3><p>Prestaciones, aportes, ARL por clase de riesgo y dotación. Temporales y cooperativas aparecen como riesgo, nunca como solución.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><defs><pattern id="rayas2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="2" height="5" fill="#15171A"/></pattern></defs><g stroke="#15171A" stroke-width="1.5"><rect x="1" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="14" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="27" y="12" width="11" height="16" rx="1.5" fill="none" stroke="#D63A2F" stroke-dasharray="2 2"/><rect x="40" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="53" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="66" y="12" width="11" height="16" rx="1.5" fill="#A9B8AE"/><rect x="79" y="12" width="12" height="16" rx="1.5" fill="#FFD23F"/></g><rect x="29" y="3" width="11" height="9" rx="1.5" fill="url(#rayas2)" stroke="#15171A" stroke-width="1.5"/></svg>
+        <div><h3>Ausentismo</h3><p>Incapacidades, licencias y permisos no se pueden predecir, pero sí presupuestar: cuántas horas hay que reponer al mes y qué cuesta cubrirlas con horas extra del equipo o con un relevo.</p></div>
+      </div>
+      <div class="fila">
+        <svg class="glifo" viewBox="0 0 92 40" aria-hidden="true"><rect x="1" y="14" width="64" height="16" rx="2" fill="#A9B8AE" stroke="#15171A" stroke-width="1.5"/><rect x="65" y="14" width="26" height="16" rx="2" fill="none" stroke="#15171A" stroke-width="1.5" stroke-dasharray="3 2"/><rect x="6" y="5" width="22" height="9" rx="1.5" fill="#FFD23F" stroke="#15171A" stroke-width="1.5"/></svg>
+        <div><h3>Cargos de confianza</h3><p>Pactar al administrador como cargo de dirección o confianza lo saca de las horas extra solo si sus funciones lo son de verdad. Si no, las extras se deben con sus recargos.</p></div>
+      </div>
+    </div>
+    <div class="sectores">
+      <span class="sectores-t">Nueve plantillas de sector, entre ellas</span>
+      <span class="sector">Restaurantes</span>
+      <span class="sector">Bares y gastro-bares</span>
+      <span class="sector">Comercio</span>
+      <span class="sector">Manufactura</span>
+      <span class="sector">Logística y bodegas</span>
+      <span class="sector">Call center</span>
+      <span class="sector">Salud</span>
+      <span class="sector">Vigilancia</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="lleva">
+  <div class="wrap">
+    <h2 class="sec-titulo">El mismo trabajo, cumpliendo la ley, por menos plata.</h2>
+    <div class="lleva">
+      <div>
+        <p class="sec-lead" style="margin-top:0;margin-bottom:18px">Lo que se lleva del diagnóstico:</p>
+        <ul class="lleva-lista">
+          <li><strong>Costo mensual por concepto y por persona:</strong> recargos, extras, prestaciones y aportes.</li>
+          <li><strong>Mapa de cobertura cada media hora:</strong> dónde sobra gente y dónde falta.</li>
+          <li><strong>Alertas de cumplimiento,</strong> cada una con su norma.</li>
+          <li><strong>Un horario propuesto</strong> que cumple la ley, con el ahorro frente al actual.</li>
+          <li><strong>Presupuesto de ausentismo:</strong> en el gastro-bar, con 4 % de ausentismo hay que reponer 77 horas al mes. Con horas extra del equipo cuesta $1.375.497 y se pasa del tope legal; con un relevo de tiempo parcial, $1.773.927.</li>
+          <li><strong>Informe para la gerencia</strong> y registro de horas extra en Excel.</li>
+        </ul>
+      </div>
+      <div class="reglas">
+        <h3>Así trabajamos</h3>
+        <ul>
+          <li>Todas las cifras salen del motor de cálculo. La inteligencia artificial solo redacta la explicación; nunca pone un número.</li>
+          <li>Cuando un criterio legal es discutible, se lo mostramos y calculamos también el escenario conservador.</li>
+          <li>Si su horario ya es eficiente, se lo decimos. No inventamos ahorros.</li>
+          <li>Cada parámetro legal tiene su vigencia, su norma y su fuente: salario mínimo de cada año, jornada, recargos y festivos.</li>
+          <li>Los datos viven en el equipo donde se abre la herramienta, no en un servidor. La copia de seguridad se guarda en un archivo.</li>
+          <li>Datos personales bajo la Ley 1581 de 2012: solo código interno, nombre, cargo, puesto y contrato, con autorización de la empresa. No pedimos documentos de identidad.</li>
+        </ul>
+        <p class="pie-legal">Jornada 42 es una herramienta de diagnóstico de costos laborales. Las lecturas flexibles de la norma requieren el concepto escrito de su abogado laboral.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <h2>¿Cuánto le cuesta su horario de siempre con las reglas de hoy?</h2>
+    <div>
+      <p><strong>Cada cifra con su norma. Cada decisión de cálculo, con su criterio.</strong> En una conversación de 30 minutos revisamos su operación y le decimos si Jornada 42 puede bajar su costo laboral antes del siguiente escalón de la reforma. Sin compromiso.</p>
+      <button class="btn btn-tinta" data-abrir-modal>Diagnosticar mi costo laboral</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Jornada 42 es una herramienta de <a href="/"><strong>FMC DataLab</strong></a>. © 2026</span>
+    <nav aria-label="Otras herramientas">
+      <a href="/ebit-q/">EBIT-Q</a>
+      <a href="/startup-q/">Startup-Q</a>
+      <a href="/medic-q/">Medic-Q</a>
+      <a href="mailto:contacto@fmcdatalab.com">contacto@fmcdatalab.com</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- MODAL CONTACTO -->
+<div class="modal" id="modal-contacto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+  <div class="modal-caja">
+    <button class="modal-cerrar" data-cerrar-modal aria-label="Cerrar">×</button>
+    <h3 id="modal-titulo">Cuéntenos de su operación</h3>
+    <p class="modal-sub">Le respondemos en menos de 24 horas.</p>
+    <div class="campos">
+      <div class="campo"><label for="fc-nombre">Nombre completo *</label><input id="fc-nombre" type="text" autocomplete="name"></div>
+      <div class="campo"><label for="fc-cargo">Cargo *</label><input id="fc-cargo" type="text" placeholder="Gerente, talento humano…"></div>
+      <div class="campo ancho"><label for="fc-empresa">Empresa *</label><input id="fc-empresa" type="text" autocomplete="organization"></div>
+      <div class="campo"><label for="fc-email">Correo *</label><input id="fc-email" type="email" autocomplete="email"></div>
+      <div class="campo"><label for="fc-tel">WhatsApp</label><input id="fc-tel" type="tel" autocomplete="tel" placeholder="+57 300 000 0000"></div>
+      <div class="campo ancho"><label for="fc-mensaje">¿Cuántas personas trabajan por turnos y en qué sector?</label><textarea id="fc-mensaje" placeholder="Ej.: restaurante, 18 personas, abrimos todos los días hasta las 11 p. m."></textarea></div>
+    </div>
+    <button class="btn btn-amarillo" id="fc-enviar">Enviar y pedir mi diagnóstico</button>
+    <p id="fc-msg" role="status"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ── Datos del ejemplo ──
+  // Horario: lunes libre; martes a viernes 2–10 p. m.; sábado 2–11 p. m.; domingo 10 a. m.–6 p. m. (49 h)
+  var DIAS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  var TURNOS = [null,[14,22],[14,22],[14,22],[14,22],[14,23],[10,18]];
+  // Las horas extra se ubican al final de los turnos, en este orden
+  var ORDEN_EXTRA = [[5,22],[4,21],[3,21],[2,21],[1,21],[5,21],[6,17]];
+  var TOTAL = 49;
+  var ETAPAS = [
+    {fecha:'Antes de julio 2025', jornada:46, noche:21, dom:75, txt:'<b>Antes de la reforma.</b> Jornada de 46 horas, la noche empezaba a las 9:00 p. m. y el domingo pagaba 75 % de recargo.'},
+    {fecha:'Julio 2025', jornada:44, noche:21, dom:80, txt:'<b>Julio de 2025.</b> La jornada baja a 44 horas: dos horas más del mismo horario se vuelven extra. El domingo sube a 80 %.'},
+    {fecha:'Diciembre 2025', jornada:44, noche:19, dom:80, txt:'<b>25 de diciembre de 2025.</b> La noche empieza a las 7:00 p. m. Cada cierre suma dos horas más con recargo nocturno.'},
+    {fecha:'Julio 2026 (hoy)', jornada:42, noche:19, dom:90, txt:'<b>Julio de 2026, hoy.</b> Jornada de 42 horas y domingo al 90 %. Así se paga hoy este horario.'},
+    {fecha:'Julio 2027', jornada:42, noche:19, dom:100, txt:'<b>Julio de 2027.</b> El domingo llega a 100 %. Mismo horario, sin que nadie haya movido un turno.'}
+  ];
+  var HOY = 3;
+
+  var grilla = document.getElementById('grilla');
+  var eje = document.getElementById('eje');
+  var etapasBox = document.querySelector('.etapas');
+  var avance = document.getElementById('avance');
+  var celdas = {};
+  var actual = -1;
+
+  // eje de horas
+  var e = '<span></span>';
+  for (var h=0; h<24; h++) e += '<span>' + (h%6===0 ? (h===0?'12a':h===12?'12p':(h<12?h+'a':(h-12)+'p')) : '') + '</span>';
+  eje.innerHTML = e;
+
+  // grilla
+  DIAS.forEach(function(d, i){
+    var lab = document.createElement('div'); lab.className='dia'; lab.textContent=d; grilla.appendChild(lab);
+    for (var h=0; h<24; h++){
+      var c = document.createElement('div'); c.className='c'; grilla.appendChild(c); celdas[i+'-'+h]=c;
+    }
+  });
+
+  // botones de etapa
+  ETAPAS.forEach(function(et, i){
+    var b = document.createElement('button');
+    b.className='etapa'; b.type='button';
+    b.setAttribute('aria-pressed','false');
+    b.innerHTML = '<span class="etapa-punto"></span><span class="etapa-fecha">'+et.fecha+'</span>';
+    b.addEventListener('click', function(){ pintar(i, true); });
+    etapasBox.appendChild(b);
+  });
+  var botones = etapasBox.querySelectorAll('.etapa');
+
+  function estado(i){
+    var et = ETAPAS[i], extras = TOTAL - et.jornada, noc = 0, mapa = {};
+    var ext = {}; ORDEN_EXTRA.slice(0, extras).forEach(function(p){ ext[p[0]+'-'+p[1]] = true; });
+    TURNOS.forEach(function(t, d){
+      if (!t) return;
+      for (var h=t[0]; h<t[1]; h++){
+        var k = d+'-'+h, cls = 'ord';
+        if (d===6) cls='dom'; else if (h>=et.noche) { cls='noc'; noc++; }
+        mapa[k] = cls + (ext[k] ? ' ext' : '');
+      }
+    });
+    return {mapa:mapa, noc:noc, dom:et.dom, ext:extras};
+  }
+
+  function pintar(i, marcarNuevas){
+    var prev = actual >= 0 ? estado(actual) : null;
+    var s = estado(i);
+    Object.keys(celdas).forEach(function(k){
+      var cls = s.mapa[k] || '';
+      var antes = prev ? (prev.mapa[k]||'') : cls;
+      celdas[k].className = 'c ' + cls + (marcarNuevas && prev && cls !== antes ? ' nueva' : '');
+    });
+    document.getElementById('m-noc').textContent = s.noc;
+    document.getElementById('m-dom').textContent = s.dom;
+    document.getElementById('m-ext').textContent = s.ext;
+    var base = estado(0);
+    document.getElementById('d-noc').textContent = s.noc>base.noc ? '+'+(s.noc-base.noc) : '';
+    document.getElementById('d-dom').textContent = s.dom>base.dom ? '+'+(s.dom-base.dom)+' pts' : '';
+    document.getElementById('d-ext').textContent = s.ext>base.ext ? '+'+(s.ext-base.ext) : '';
+    document.getElementById('etapa-texto').innerHTML = ETAPAS[i].txt;
+    grilla.setAttribute('aria-label', ETAPAS[i].fecha + ': ' + s.noc + ' horas nocturnas, domingo al ' + s.dom + ' por ciento, ' + s.ext + ' horas extra a la semana.');
+    botones.forEach(function(b, j){
+      b.classList.toggle('activa', j===i);
+      b.classList.toggle('pasada', j<i);
+      b.setAttribute('aria-pressed', j===i ? 'true':'false');
+    });
+    avance.style.width = (i/(ETAPAS.length-1))*80 + '%';
+    actual = i;
+  }
+
+  // Momento de entrada: la tablilla recorre la reforma una vez, hasta hoy
+  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (quieto || !('IntersectionObserver' in window)) { pintar(HOY, false); }
+  else {
+    pintar(0, false);
+    var visto = false;
+    new IntersectionObserver(function(ents, obs){
+      if (visto || !ents[0].isIntersecting) return;
+      visto = true; obs.disconnect();
+      var k = 0;
+      (function paso(){ k++; if (k > HOY) return; setTimeout(function(){ if (actual === k-1) { pintar(k, true); paso(); } }, 1100); })();
+    }, {threshold:.2}).observe(document.getElementById('tablilla'));
+  }
+
+  // ── Modal ──
+  var modal = document.getElementById('modal-contacto');
+  document.querySelectorAll('[data-abrir-modal]').forEach(function(b){
+    b.addEventListener('click', function(){ modal.classList.add('abierto'); document.getElementById('fc-nombre').focus(); });
+  });
+  function cerrar(){ modal.classList.remove('abierto'); }
+  document.querySelector('[data-cerrar-modal]').addEventListener('click', cerrar);
+  modal.addEventListener('click', function(ev){ if (ev.target === modal) cerrar(); });
+  document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') cerrar(); });
+
+  // ── Envío a Supabase ──
+  document.getElementById('fc-enviar').addEventListener('click', async function(){
+    var v = function(id){ return document.getElementById(id).value.trim(); };
+    var nombre=v('fc-nombre'), cargo=v('fc-cargo'), empresa=v('fc-empresa'), email=v('fc-email'), tel=v('fc-tel'), mensaje=v('fc-mensaje');
+    var msg = document.getElementById('fc-msg');
+    msg.style.display='block';
+    if (!nombre || !cargo || !empresa || !email) { msg.style.color='#D63A2F'; msg.textContent='Complete nombre, cargo, empresa y correo.'; return; }
+    msg.style.color='#4A4F55'; msg.textContent='Enviando…';
+    try {
+      var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWliZHNpbW1wd2x5ZXBiZWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDI5OTEsImV4cCI6MjA5MTkxODk5MX0.t8ZIzJ5flkyzfbj3RSTTMPq_gB0VaDX59iaGKDdsR8o';
+      var res = await fetch('https://ilyibdsimmpwlyepbekg.supabase.co/rest/v1/contactos', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY,'Prefer':'return=minimal'},
+        body: JSON.stringify({nombre:nombre, cargo:cargo, empresa:empresa, email:email, telefono:tel, sector:'', mensaje:mensaje, producto:'Jornada 42'})
+      });
+      if (!res.ok) throw new Error(res.status);
+      msg.style.color='#15171A'; msg.textContent='Recibido. Le escribimos en menos de 24 horas.';
+      ['fc-nombre','fc-cargo','fc-empresa','fc-email','fc-tel','fc-mensaje'].forEach(function(id){ document.getElementById(id).value=''; });
+    } catch(err) {
+      msg.style.color='#D63A2F'; msg.textContent='No se pudo enviar. Escríbanos a consultorceo@fmcdatalab.com';
+    }
+  });
+})();
+</script>
+</body>
+</html>
